@@ -2,7 +2,7 @@ Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.0
-Release:	3
+Release:	13
 License:	Freely distributable
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
@@ -15,6 +15,7 @@ Group(uk):	Розробка/Б╕бл╕отеки
 Source0:	http://www.netlib.org/lapack/%{name}.tgz
 Source1:	http://www.netlib.org/lapack/manpages.tgz
 Patch0:		%{name}-automake_support.patch
+Patch1:		%{name}-20010525.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	gcc-g77
 BuildRequires:	autoconf
@@ -155,6 +156,7 @@ Biblioteki statyczne BLAS.
 %prep
 %setup -q -a1 -n LAPACK
 %patch0 -p1
+%patch1 -p1
 # directory INSTALL conflicts with file INSTALL needed by automake
 mv -f INSTALL install
 >INSTALL
