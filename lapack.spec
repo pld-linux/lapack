@@ -5,13 +5,6 @@ Version:	3.0
 Release:	13
 License:	Freely distributable
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Source0:	http://www.netlib.org/lapack/%{name}.tgz
 Source1:	http://www.netlib.org/lapack/manpages.tgz
 Patch0:		%{name}-automake_support.patch
@@ -54,13 +47,6 @@ napisany w Fortranie 77.
 Summary:	LAPACK header files
 Summary(pl):	Pliki nagЁСwkowe LAPACK
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 Obsoletes:	lapack-man
 
@@ -74,13 +60,6 @@ Pliki nagЁСwkowe LAPACK.
 Summary:	Static LAPACK libraries
 Summary(pl):	Biblioteki statyczne LAPACK
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 
 %description static
@@ -93,13 +72,6 @@ Biblioteki statyczne LAPACK.
 Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux
 Summary(pl):	Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Obsoletes:	lapack-blas
 
 %description -n blas
@@ -118,13 +90,6 @@ w Fortranie 77.
 Summary:	BLAS header files
 Summary(pl):	Pliki nagЁСwkowe BLAS
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	blas = %{version}
 Obsoletes:	blas-man
 
@@ -138,13 +103,6 @@ Pliki nagЁСwkowe BLAS.
 Summary:	Static BLAS libraries
 Summary(pl):	Biblioteki statyczne BLAS
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	blas-devel = %{version}
 
 %description -n blas-static
