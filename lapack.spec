@@ -91,8 +91,9 @@ numeryczn± algebry. Dostarcza wiele podstawowych algorytmów dla
 algebry liniowej. Jest szybka i dobrze przetestowana, zosta³a napisana
 w Fortranie 77.
 
-Ostrze¿enie: to jest implementacja przyk³adowa z repozytorium Netlib. Je¿eli to
-mo¿liwe, u¿ywaj zamiast niej wersji zoptymalizowanej pod twoj± architekturê.
+Ostrze¿enie: to jest implementacja przyk³adowa z repozytorium Netlib.
+Je¿eli to mo¿liwe, nale¿y u¿ywaæ zamiast niej wersji zoptymalizowanej
+pod dan± architekturê.
 
 %package -n blas-devel
 Summary:	BLAS header files
