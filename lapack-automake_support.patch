@@ -1,7 +1,8 @@
 diff -Nur --exclude *~ LAPACK/BLAS/SRC/Makefile.am LAPACK.new/BLAS/SRC/Makefile.am
 --- LAPACK/BLAS/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/BLAS/SRC/Makefile.am	Tue Jul 25 13:12:16 2000
-@@ -0,0 +1,24 @@
+@@ -0,0 +1,25 @@
++LIBTOOL = $(SHELL) $(top_builddir)/libtool --tag F77
 +lib_LTLIBRARIES = libblas.la
 +libblas_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
 +libblas_la_SOURCES= \
@@ -34,9 +35,12 @@ diff -Nur --exclude *~ LAPACK/Makefile.am LAPACK.new/Makefile.am
 diff -Nur --exclude *~ LAPACK/SRC/Makefile.am LAPACK.new/SRC/Makefile.am
 --- LAPACK/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/SRC/Makefile.am	Tue Jul 25 13:15:30 2000
-@@ -0,0 +1,219 @@
+@@ -0,0 +1,222 @@
++LIBTOOL = $(SHELL) $(top_builddir)/libtool --tag F77
 +lib_LTLIBRARIES = liblapack.la
-+liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@) -L../BLAS/SRC/.libs -lblas
++liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
++liblapack_la_LIBADD = $(top_builddir)/BLAS/SRC/libblas.la
++liblapack_la_DEPENDENCIES = $(top_builddir)/BLAS/SRC/libblas.la
 +liblapack_la_SOURCES = \
 +	cbdsqr.f cgbbrd.f cgbcon.f cgbequ.f cgbrfs.f cgbsv.f \
 +	cgbsvx.f cgbtf2.f cgbtrf.f cgbtrs.f cgebak.f cgebal.f \
