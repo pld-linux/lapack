@@ -6,8 +6,8 @@ Copyright:	Freely distributable
 Group:		Development/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
-Source0:	http://www.netlib.org/lapack/%{name}.tar.bz2
-Source1:	http://www.netlib.org/lapack/manpages.tar.bz2
+Source0:	http://www.netlib.org/lapack/%{name}.tgz
+Source1:	http://www.netlib.org/lapack/manpages.tgz
 #Source2:	Makefile.blas
 #Source3:	Makefile.lapack
 Patch0:		%{name}-automake_support.patch
