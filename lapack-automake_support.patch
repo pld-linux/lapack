@@ -1,8 +1,9 @@
 diff -Nur --exclude *~ LAPACK/BLAS/SRC/Makefile.am LAPACK.new/BLAS/SRC/Makefile.am
 --- LAPACK/BLAS/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/BLAS/SRC/Makefile.am	Tue Jul 25 13:12:16 2000
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,24 @@
 +lib_LTLIBRARIES = libblas.la
++libblas_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
 +libblas_la_SOURCES= \
 +	caxpy.f ccopy.f cdotc.f cdotu.f cgbmv.f cgemm.f cgemv.f \
 +	cgerc.f cgeru.f chbmv.f chemm.f chemv.f cher.f cher2.f \
@@ -33,8 +34,9 @@ diff -Nur --exclude *~ LAPACK/Makefile.am LAPACK.new/Makefile.am
 diff -Nur --exclude *~ LAPACK/SRC/Makefile.am LAPACK.new/SRC/Makefile.am
 --- LAPACK/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/SRC/Makefile.am	Tue Jul 25 13:15:30 2000
-@@ -0,0 +1,218 @@
+@@ -0,0 +1,219 @@
 +lib_LTLIBRARIES = liblapack.la
++liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
 +liblapack_la_SOURCES = \
 +	cbdsqr.f cgbbrd.f cgbcon.f cgbequ.f cgbrfs.f cgbsv.f \
 +	cgbsvx.f cgbtf2.f cgbtrf.f cgbtrs.f cgebak.f cgebal.f \
