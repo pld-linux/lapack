@@ -8,8 +8,9 @@ Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Source0:	http://www.netlib.org/lapack/%{name}.tar.bz2
 Source1:	http://www.netlib.org/lapack/manpages.tar.bz2
-Source2:	Makefile.blas
-Source3:	Makefile.lapack
+#Source2:	Makefile.blas
+#Source3:	Makefile.lapack
+Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -62,82 +63,58 @@ linear algebra libraries.
 %prep
 %setup -q -n LAPACK
 %setup -q -D -T -a 1 -n LAPACK
-install %{SOURCE3} BLAS/SRC/Makefile
-install %{SOURCE3} SRC/Makefile
+%patch0 -p1
+# directory INSTALL conflicts with file INSTALL needed by automake
+mv -f INSTALL install
+>INSTALL
+>AUTHORS
+>ChangeLog
+>NEWS
+>COPYING
+>config.h.in
 
 %build
-cd BLAS/SRC
-FFLAGS="$RPM_OPT_FLAGS" make static
-cp libblas.a ../..
-%{__make} clean
-FFLAGS="$RPM_OPT_FLAGS -fPIC" make shared
-cp libblas.so.3.0.3 ../..
-cd ../..
-ln -s libblas.so.3.0.3 libblas.so
-cd SRC
-FFLAGS="$RPM_OPT_FLAGS" make static
-cp liblapack.a ..
-%{__make} clean
-FFLAGS="$RPM_OPT_FLAGS -fPIC" make shared
-cp liblapack.so.3.0.3 ..
+aclocal
+autoheader
+automake --add-missing
+autoconf
+%configure 
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}
-install -d $RPM_BUILD_ROOT%{_prefix}/man/manl
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-cp -f liblapack.so.3.0.3 $RPM_BUILD_ROOT%{_libdir}/liblapack.so.3.0.3
-cp -f libblas.so.3.0.3 $RPM_BUILD_ROOT%{_libdir}/libblas.so.3.0.3
-cp -f libblas.a $RPM_BUILD_ROOT%{_libdir}/libblas.a
-cp -f liblapack.a $RPM_BUILD_ROOT%{_libdir}/liblapack.a
+install -d $RPM_BUILD_ROOT%{_mandir}/manl
+gzip -9nf blas/man/manl/*.l man/manl/*.l
+install blas/man/manl/* man/manl/* $RPM_BUILD_ROOT%{_mandir}/manl
 
-cd blas/man/manl
-gzip -9nf *
-cd ../../..
-echo "%defattr(-, root, root)" > blasmans
-find blas/man/manl -type f -printf "%{_prefix}/man/manl/%f\n" > blasmans
-cd man/manl
-gzip -9nf *
-cd ../..
-echo "%defattr(-, root, root)" > lapackmans
-find man/manl -type f -printf "%{_prefix}/man/manl/%f\n" > lapackmans
+echo "%defattr(644, root, root, 755)" > blasmans.list
+find blas/man/manl -name "*.gz" -printf "%{_mandir}/manl/%%f\n" >> blasmans.list
+echo "%defattr(644, root, root, 755)" > mans.list
+find man/manl -name "*.gz" -printf "%{_mandir}/manl/%%f\n" >> mans.list
 
-cp -f blas/man/manl/* $RPM_BUILD_ROOT%{_prefix}/man/manl
-cp -f man/manl/* $RPM_BUILD_ROOT%{_prefix}/man/manl
-cd $RPM_BUILD_ROOT%{_libdir}
-ln -sf liblapack.so.3.0.3 liblapack.so
-ln -sf liblapack.so.3.0.3 liblapack.so.3
-ln -sf liblapack.so.3.0.3 liblapack.so.3.0
-ln -sf libblas.so.3.0.3 libblas.so
-ln -sf libblas.so.3.0.3 libblas.so.3
-ln -sf libblas.so.3.0.3 libblas.so.3.0
+gzip -9nf README
 
-%pre
-ldconfig
-
-%post
-ldconfig
-
-%pre -n blas
-ldconfig
-
-%post -n blas
-ldconfig
+%post           -p /sbin/ldconfig
+%postun         -p /sbin/ldconfig
+%post   -n blas -p /sbin/ldconfig
+%postun -n blas -p /sbin/ldconfig
 
 %clean
 rm -fr $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README
-%{_libdir}/liblapack.*
+%doc README*
+%attr(755,root,root) %{_libdir}/liblapack.*
 
-%files -n blas
+%files -n blas 
 %defattr(644,root,root,755)
 %{_libdir}/libblas.*
 
-%files -n blas-man -f blasmans
+%files -n blas-man -f blasmans.list
 %defattr(644,root,root,755)
 
-%files man -f lapackmans
+%files man -f mans.list
 %defattr(644,root,root,755)
