@@ -2,7 +2,6 @@ diff -Nur --exclude *~ LAPACK/BLAS/SRC/Makefile.am LAPACK.new/BLAS/SRC/Makefile.
 --- LAPACK/BLAS/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/BLAS/SRC/Makefile.am	Tue Jul 25 13:12:16 2000
 @@ -0,0 +1,25 @@
-+LIBTOOL = $(SHELL) $(top_builddir)/libtool --tag F77
 +lib_LTLIBRARIES = libblas.la
 +libblas_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
 +libblas_la_SOURCES= \
@@ -36,7 +35,6 @@ diff -Nur --exclude *~ LAPACK/SRC/Makefile.am LAPACK.new/SRC/Makefile.am
 --- LAPACK/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/SRC/Makefile.am	Tue Jul 25 13:15:30 2000
 @@ -0,0 +1,222 @@
-+LIBTOOL = $(SHELL) $(top_builddir)/libtool --tag F77
 +lib_LTLIBRARIES = liblapack.la
 +liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
 +liblapack_la_LIBADD = $(top_builddir)/BLAS/SRC/libblas.la
@@ -295,4 +293,3 @@ diff -Nur --exclude *~ LAPACK/BLAS/Makefile.am LAPACK.new/BLAS/Makefile.am
 +++ LAPACK.new/BLAS/Makefile.am	Tue Jul 25 18:59:58 2000
 @@ -0,0 +1 @@
 +SUBDIRS = SRC
-\ No newline at end of file

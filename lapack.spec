@@ -14,8 +14,6 @@ Group(ru):	Разработка/Библиотеки
 Group(uk):	Розробка/Б╕бл╕отеки
 Source0:	http://www.netlib.org/lapack/%{name}.tgz
 Source1:	http://www.netlib.org/lapack/manpages.tgz
-#Source2:	Makefile.blas
-#Source3:	Makefile.lapack
 Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	gcc-g77
@@ -186,14 +184,15 @@ q
 EOF
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_mandir}/manl
-gzip -9nf blas/man/manl/*.l man/manl/*.l
-install blas/man/manl/* man/manl/* $RPM_BUILD_ROOT%{_mandir}/manl
+install -d $RPM_BUILD_ROOT%{_mandir}/man3
+for d in man/manl/*.l blas/man/manl/*.l ; do
+	install $d $RPM_BUILD_ROOT%{_mandir}/man3/`basename $d .l`.3
+done
 
 echo "%defattr(644, root, root, 755)" > blasmans.list
-find blas/man/manl -name "*.gz" -printf "%{_mandir}/manl/%%f\n" >> blasmans.list
+find blas/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> blasmans.list
 echo "%defattr(644, root, root, 755)" > mans.list
-find man/manl -name "*.gz" -printf "%{_mandir}/manl/%%f\n" >> mans.list
+find man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> mans.list
 
 gzip -9nf README
 
