@@ -1,7 +1,7 @@
 Summary:	The LAPACK libraries for numerical linear algebra.
 Name:		lapack
 Version:	3.0
-Release:	4
+Release:	1
 Copyright:	Freely distributable
 Group:		Development/Libraries
 Group(fr):	Development/Librairies
@@ -98,7 +98,6 @@ Static %{name} libraries.
 %description -l pl -n blas-static
 Biblioteki statyczne %{name}.
 
-
 %package -n blas-man
 Summary:	Man pages for BLAS (Basic Linear Algebra Subprograms) routines.
 Group:		Documentation
@@ -120,8 +119,7 @@ linear algebra libraries.
 
 
 %prep
-%setup -q -n LAPACK
-%setup -q -D -T -a 1 -n LAPACK
+%setup -q -a1 -n LAPACK
 %patch0 -p1
 # directory INSTALL conflicts with file INSTALL needed by automake
 mv -f INSTALL install
@@ -163,6 +161,7 @@ gzip -9nf README
 %clean
 rm -fr $RPM_BUILD_ROOT
 
+
 %files
 %defattr(644,root,root,755)
 %doc README*
@@ -178,7 +177,7 @@ rm -fr $RPM_BUILD_ROOT
 
 %files -n blas 
 %defattr(644,root,root,755)
-%{_libdir}/libblas.so.*.*.*
+%attr(755,root,root) %{_libdir}/libblas.so.*.*.*
 
 %files -n blas-devel
 %defattr(644,root,root,755)
