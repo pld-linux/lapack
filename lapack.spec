@@ -13,10 +13,9 @@ URL:		http://www.netlib.org/lapack/
 BuildRequires:	gcc-g77
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool
-BuildRequires:	ed
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRequires:	libtool >= 1:1.4.2-9
 Requires:	blas = %{version}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 LAPACK (Linear Algebra PACKage) is a standard library for numerical
@@ -136,12 +135,7 @@ grep -q -e '--tag' `which libtool` && LTTAG="--tag=F77"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-#workaround libtool
-ed SRC/liblapack.la <<EOF
-s/relink_command=.*/relink_command=''/
-w
-q
-EOF
+
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 # present both in blas and lapack
@@ -173,7 +167,8 @@ rm -fr $RPM_BUILD_ROOT
 
 %files devel -f mans.list
 %defattr(644,root,root,755)
-%{_libdir}/liblapack.so
+%attr(755,root,root) %{_libdir}/liblapack.so
+%{_libdir}/liblapack.la
 
 %files static
 %defattr(644,root,root,755)
@@ -185,7 +180,8 @@ rm -fr $RPM_BUILD_ROOT
 
 %files -n blas-devel -f blasmans.list
 %defattr(644,root,root,755)
-%{_libdir}/libblas.so
+%attr(755,root,root) %{_libdir}/libblas.so
+%{_libdir}/libblas.la
 
 %files -n blas-static
 %defattr(644,root,root,755)
