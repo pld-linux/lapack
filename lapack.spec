@@ -13,6 +13,7 @@ Source1:	http://www.netlib.org/lapack/manpages.tar.bz2
 Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Requires:	blas
 
 %description
 LAPACK (Linear Algebra PACKage) is a standard library for numerical
@@ -128,7 +129,7 @@ mv -f INSTALL install
 >ChangeLog
 >NEWS
 >COPYING
->config.h.in
+#>config.h.in
 
 %build
 aclocal
