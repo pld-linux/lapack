@@ -265,7 +265,7 @@ diff -Nur --exclude *~ LAPACK/configure.in LAPACK.new/configure.in
 +dnl hmm equivalence.c is characteristic for lapack
 +AC_INIT(equivalence.c)
 +AM_INIT_AUTOMAKE(lapack, 3.0.3)
-+dnl AM_CONFIG_HEADER(config.h)
++AM_CONFIG_HEADER(config.h)
 +
 +dnl Checks for programs.
 +AC_ISC_POSIX
