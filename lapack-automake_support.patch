@@ -6,7 +6,8 @@ diff -urN --exclude '*~' LAPACK/BLAS/Makefile.am LAPACK.new/BLAS/Makefile.am
 diff -urN --exclude '*~' LAPACK/BLAS/SRC/Makefile.am LAPACK.new/BLAS/SRC/Makefile.am
 --- LAPACK/BLAS/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/BLAS/SRC/Makefile.am	Fri Dec 14 15:58:22 2001
-@@ -0,0 +1,25 @@
+@@ -0,0 +1,26 @@
++LIBTOOL = $(SHELL) $(top_builddir)/libtool $(LTTAG)
 +lib_LTLIBRARIES = libblas.la
 +libblas_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
 +libblas_la_SOURCES= \
@@ -40,7 +41,8 @@ diff -urN --exclude '*~' LAPACK/Makefile.am LAPACK.new/Makefile.am
 diff -urN --exclude '*~' LAPACK/SRC/Makefile.am LAPACK.new/SRC/Makefile.am
 --- LAPACK/SRC/Makefile.am	Thu Jan  1 01:00:00 1970
 +++ LAPACK.new/SRC/Makefile.am	Fri Dec 14 16:05:04 2001
-@@ -0,0 +1,156 @@
+@@ -0,0 +1,157 @@
++LIBTOOL = $(SHELL) $(top_builddir)/libtool $(LTTAG)
 +lib_LTLIBRARIES = liblapack.la
 +liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
 +liblapack_la_LIBADD = $(top_builddir)/BLAS/SRC/libblas.la

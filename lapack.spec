@@ -2,7 +2,7 @@ Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.0
-Release:	13
+Release:	14
 License:	freely distributable
 Group:		Development/Libraries
 Source0:	http://www.netlib.org/lapack/%{name}.tgz
@@ -16,7 +16,7 @@ BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	ed
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Requires:	blas
+Requires:	blas = %{version}
 
 %description
 LAPACK (Linear Algebra PACKage) is a standard library for numerical
@@ -48,6 +48,7 @@ Summary:	LAPACK header files
 Summary(pl):	Pliki nag³ówkowe LAPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
+Requires:	blas-devel = %{version}
 Obsoletes:	lapack-man
 
 %description devel
@@ -117,22 +118,21 @@ Biblioteki statyczne BLAS.
 %patch1 -p1
 # directory INSTALL conflicts with file INSTALL needed by automake
 mv -f INSTALL install
->INSTALL
->AUTHORS
->ChangeLog
->NEWS
->COPYING
-#>config.h.in
 
 %build
 rm -f ltmain.sh
-libtoolize --copy --force
+%{__libtoolize}
 aclocal
 autoheader
-automake --add-missing
 %{__autoconf}
+%{__automake}
 %configure
-%{__make}
+
+# libtool 1.4d requires --tag for g77, libtool 1.4.2 fails when --tag is passed
+LTTAG=""
+grep -q -e '--tag' `which libtool` && LTTAG="--tag=F77"
+
+%{__make} LTTAG="$LTTAG"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -144,6 +144,9 @@ q
 EOF
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
+# present both in blas and lapack
+rm -f man/manl/{lsame,xerbla}.l
+
 install -d $RPM_BUILD_ROOT%{_mandir}/man3
 for d in man/manl/*.l blas/man/manl/*.l ; do
 	install $d $RPM_BUILD_ROOT%{_mandir}/man3/`basename $d .l`.3
@@ -154,20 +157,18 @@ find blas/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/
 echo "%defattr(644, root, root, 755)" > mans.list
 find man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> mans.list
 
-gzip -9nf README
-
 %clean
 rm -fr $RPM_BUILD_ROOT
 
-%post           -p /sbin/ldconfig
-%postun         -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %post   -n blas -p /sbin/ldconfig
 %postun -n blas -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc README*
+%doc README
 %attr(755,root,root) %{_libdir}/liblapack.so.*.*.*
 
 %files devel -f mans.list
