@@ -284,3 +284,9 @@ diff -Nur --exclude *~ LAPACK/configure.in LAPACK.new/configure.in
 +
 +
 +AC_OUTPUT([Makefile SRC/Makefile BLAS/Makefile BLAS/SRC/Makefile])
+diff -Nur --exclude *~ LAPACK/BLAS/Makefile.am LAPACK.new/BLAS/Makefile.am
+--- LAPACK/BLAS/Makefile.am	Thu Jan  1 01:00:00 1970
++++ LAPACK.new/BLAS/Makefile.am	Tue Jul 25 18:59:58 2000
+@@ -0,0 +1 @@
++SUBDIRS = SRC
+\ No newline at end of file
