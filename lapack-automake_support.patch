@@ -36,7 +36,7 @@ diff -Nur --exclude *~ LAPACK/SRC/Makefile.am LAPACK.new/SRC/Makefile.am
 +++ LAPACK.new/SRC/Makefile.am	Tue Jul 25 13:15:30 2000
 @@ -0,0 +1,219 @@
 +lib_LTLIBRARIES = liblapack.la
-+liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
++liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@) -L../BLAS/SRC/.libs -lblas
 +liblapack_la_SOURCES = \
 +	cbdsqr.f cgbbrd.f cgbcon.f cgbequ.f cgbrfs.f cgbsv.f \
 +	cgbsvx.f cgbtf2.f cgbtrf.f cgbtrs.f cgebak.f cgebal.f \
@@ -266,7 +266,7 @@ diff -Nur --exclude *~ LAPACK/configure.in LAPACK.new/configure.in
 +
 +dnl hmm equivalence.c is characteristic for lapack
 +AC_INIT(equivalence.c)
-+AM_INIT_AUTOMAKE(lapack, 3.0.3)
++AM_INIT_AUTOMAKE(lapack, 3.0.0)
 +AM_CONFIG_HEADER(config.h)
 +
 +dnl Checks for programs.
