@@ -12,6 +12,7 @@ Source1:	http://www.netlib.org/lapack/manpages.tgz
 #Source3:	Makefile.lapack
 Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
+BuildRequires:	gcc-g77
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires:	blas
 
