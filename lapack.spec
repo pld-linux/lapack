@@ -6,7 +6,9 @@ Release:	17
 License:	freely distributable
 Group:		Development/Libraries
 Source0:	http://www.netlib.org/lapack/%{name}.tgz
+# Source0-md5:	a24f59304f87b78cdc7da2ae59c98664
 Source1:	http://www.netlib.org/lapack/manpages.tgz
+# Source1-md5:	50efab6cd73a9429584f7f1537f1727f
 Patch0:		%{name}-automake_support.patch
 Patch1:		%{name}-20010525.patch
 URL:		http://www.netlib.org/lapack/
