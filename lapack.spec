@@ -82,11 +82,17 @@ numerical algebra. BLAS provides a number of basic algorithms for
 linear algebra. BLAS is fast and well-tested, was written in FORTRAN
 77.
 
+Warning: this is a reference implementation from Netlib. If possible,
+use version optimized for your architecture instead.
+
 %description -n blas -l pl
 BLAS (Basic Linear Algebra Subprograms) jest standardow± bibliotek±
 numeryczn± algebry. Dostarcza wiele podstawowych algorytmów dla
 algebry liniowej. Jest szybka i dobrze przetestowana, zosta³a napisana
 w Fortranie 77.
+
+Ostrze¿enie: to jest implementacja przyk³adowa z repozytorium Netlib. Je¿eli to
+mo¿liwe, u¿ywaj zamiast niej wersji zoptymalizowanej pod twoj± architekturê.
 
 %package -n blas-devel
 Summary:	BLAS header files
