@@ -1,11 +1,17 @@
 Summary:	The LAPACK libraries for numerical linear algebra
+Summary(pl):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.0
-Release:	2
-Copyright:	Freely distributable
+Release:	3
+License:	Freely distributable
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Source0:	http://www.netlib.org/lapack/%{name}.tgz
 Source1:	http://www.netlib.org/lapack/manpages.tgz
 #Source2:	Makefile.blas
@@ -13,6 +19,10 @@ Source1:	http://www.netlib.org/lapack/manpages.tgz
 Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	gcc-g77
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
+BuildRequires:	ed
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Requires:	blas
 
@@ -27,79 +37,122 @@ reordering of Schur factorizations and estimating condition numbers)
 are also included. LAPACK can handle dense and banded matrices, but
 not general sparse matrices. Similar functionality is provided for
 real and complex matrices in both single and double precision. LAPACK
-is coded in Fortran77 and is built with egcs.
+is coded in Fortran77.
+
+%description -l pl
+LAPACK (Linear Algebra PACKage) jest standardow± bibliotek± numeryczn±
+do algebry liniowej. Dostarcza funkcje rozwi±zywania: uk³adów równañ
+liniowych, uk³adów równañ metod± najmniejszych kwadratów, problemów
+w³asnych. Zawiera algorytmy faktoryzacji macierzy (LU, Cholesky'ego,
+QR, SVD, Schura, uogólnion± Schura) i zwi±zanych z tym obliczeñ (np.
+przenumerowywanie w faktoryzacji Schura i estymacjê uwarunkowania).
+LAPACK mo¿e obs³ugiwaæ macierze blokowe i pasmowe, ale nie rzadkie w
+ogólnym przypadku. Zapewnia funkcjonalno¶æ dla macierzy rzeczywistych
+i zespolonych, dla liczb pojedynczej i podwójnej precyzji. LAPACK jest
+napisany w Fortranie 77.
 
 %package devel
-Summary:	%{name} header files
-Summary(pl):	Pliki nag³ówkowe %{name}
+Summary:	LAPACK header files
+Summary(pl):	Pliki nag³ówkowe LAPACK
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name} = %{version}
 Obsoletes:	lapack-man
 
 %description devel
-%{name} header files.
+LAPACK header files.
 
-%description -l pl devel
-Pliki nag³ówkowe %{name}.
+%description devel -l pl
+Pliki nag³ówkowe LAPACK.
 
 %package static
-Summary:	Static %{name} libraries
-Summary(pl):	Biblioteki statyczne %{name}
+Summary:	Static LAPACK libraries
+Summary(pl):	Biblioteki statyczne LAPACK
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	%{name}-devel = %{version}
 
 %description static
-Static %{name} libraries.
+Static LAPACK libraries.
 
 %description -l pl static
-Biblioteki statyczne %{name}.
+Biblioteki statyczne LAPACK.
 
 %package -n blas
-Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux.
+Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux
+Summary(pl):	Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Obsoletes:	lapack-blas
 
 %description -n blas
 BLAS (Basic Linear Algebra Subprograms) is a standard library for
 numerical algebra. BLAS provides a number of basic algorithms for
 linear algebra. BLAS is fast and well-tested, was written in FORTRAN
-77 and build with egcs. BLAS manual pages are available in the
-blas-man package.
+77.
+
+%description -n blas -l pl
+BLAS (Basic Linear Algebra Subprograms) jest standardow± bibliotek±
+numeryczn± algebry. Dostarcza wiele podstawowych algorytmów dla
+algebry liniowej. Jest szybka i dobrze przetestowana, zosta³a napisana
+w Fortranie 77.
 
 %package -n blas-devel
-Summary:	%{name} header files
-Summary(pl):	Pliki nag³ówkowe %{name}
+Summary:	BLAS header files
+Summary(pl):	Pliki nag³ówkowe BLAS
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	blas = %{version}
 Obsoletes:	blas-man
 
 %description -n blas-devel
-%{name} header files.
+BLAS header files.
 
-%description -l pl -n blas-devel
-Pliki nag³ówkowe %{name}.
+%description -n blas-devel -l pl
+Pliki nag³ówkowe BLAS.
 
 %package -n blas-static
-Summary:	Static %{name} libraries
-Summary(pl):	Biblioteki statyczne %{name}
+Summary:	Static BLAS libraries
+Summary(pl):	Biblioteki statyczne BLAS
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	òÁÚÒÁÂÏÔËÁ/âÉÂÌÉÏÔÅËÉ
+Group(uk):	òÏÚÒÏÂËÁ/â¦ÂÌ¦ÏÔÅËÉ
 Requires:	blas-devel = %{version}
 
 %description -n blas-static
-Static %{name} libraries.
+Static BLAS libraries.
 
-%description -l pl -n blas-static
-Biblioteki statyczne %{name}.
+%description -n blas-static -l pl
+Biblioteki statyczne BLAS.
 
 %prep
 %setup -q -a1 -n LAPACK
@@ -144,14 +197,14 @@ find man/manl -name "*.gz" -printf "%{_mandir}/manl/%%f\n" >> mans.list
 
 gzip -9nf README
 
+%clean
+rm -fr $RPM_BUILD_ROOT
+
 %post           -p /sbin/ldconfig
 %postun         -p /sbin/ldconfig
 
 %post   -n blas -p /sbin/ldconfig
 %postun -n blas -p /sbin/ldconfig
-
-%clean
-rm -fr $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
