@@ -36,7 +36,7 @@ diff -Nur --exclude *~ LAPACK/SRC/Makefile.am LAPACK.new/SRC/Makefile.am
 @@ -0,0 +1,218 @@
 +lib_LTLIBRARIES = liblapack.la
 +liblapack_la_SOURCES = \
-+	cbdsqr.o cgbbrd.o cgbcon.o cgbequ.o cgbrfs.o cgbsv.o \
++	cbdsqr.f cgbbrd.f cgbcon.f cgbequ.f cgbrfs.f cgbsv.f \
 +	cgbsvx.f cgbtf2.f cgbtrf.f cgbtrs.f cgebak.f cgebal.f \
 +	cgebd2.f cgebrd.f cgecon.f cgeequ.f cgees.f cgeesx.f \
 +	cgeev.f cgeevx.f cgegs.f cgegv.f cgehd2.f cgels.f \
