@@ -1,7 +1,7 @@
 Summary:	The LAPACK libraries for numerical linear algebra.
 Name:		lapack
 Version:	3.0
-Release:	1
+Release:	2
 Copyright:	Freely distributable
 Group:		Development/Libraries
 Group(fr):	Development/Librairies
@@ -133,6 +133,8 @@ mv -f INSTALL install
 #>config.h.in
 
 %build
+rm -f ltmain.sh
+libtoolize --copy --force
 aclocal
 autoheader
 automake --add-missing
@@ -142,6 +144,12 @@ autoconf
 
 %install
 rm -rf $RPM_BUILD_ROOT
+#workaround libtool
+ed SRC/liblapack.la <<EOF
+s/relink_command=.*/relink_command=''/
+w
+q
+EOF
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_mandir}/manl
