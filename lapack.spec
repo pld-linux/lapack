@@ -27,6 +27,35 @@ not general sparse matrices. Similar functionality is provided for
 real and complex matrices in both single and double precision. LAPACK
 is coded in Fortran77 and is built with egcs.
 
+%package devel
+Summary:	%{name} header files
+Summary(pl):	Pliki nag³ówkowe %{name}
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name} = %{version}
+
+%description devel
+%{name} header files.
+
+%description -l pl devel
+Pliki nag³ówkowe %{name}.
+
+%package static
+Summary:	Static %{name} libraries
+Summary(pl):	Biblioteki statyczne %{name}
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name}-devel = %{version}
+
+%description static
+Static %{name} libraries.
+
+%description -l pl static
+Biblioteki statyczne %{name}.
+
+
 %package -n blas
 Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux.
 Group:		Development/Libraries
@@ -40,6 +69,35 @@ numerical algebra. BLAS provides a number of basic algorithms for
 linear algebra. BLAS is fast and well-tested, was written in FORTRAN
 77 and build with egcs. BLAS manual pages are available in the
 blas-man package.
+
+%package -n blas-devel
+Summary:	%{name} header files
+Summary(pl):	Pliki nag³ówkowe %{name}
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	blas = %{version}
+
+%description -n blas-devel
+%{name} header files.
+
+%description -l pl -n blas-devel
+Pliki nag³ówkowe %{name}.
+
+%package -n blas-static
+Summary:	Static %{name} libraries
+Summary(pl):	Biblioteki statyczne %{name}
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	blas-devel = %{version}
+
+%description -n blas-static
+Static %{name} libraries.
+
+%description -l pl -n blas-static
+Biblioteki statyczne %{name}.
+
 
 %package -n blas-man
 Summary:	Man pages for BLAS (Basic Linear Algebra Subprograms) routines.
@@ -59,6 +117,7 @@ Group(pl):	Dokumentacja
 %description man
 Documentation, in the form of man pages, for the LAPACK numerical
 linear algebra libraries.
+
 
 %prep
 %setup -q -n LAPACK
@@ -107,11 +166,28 @@ rm -fr $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README*
-%attr(755,root,root) %{_libdir}/liblapack.*
+%attr(755,root,root) %{_libdir}/liblapack.so.*.*.*
+
+%files devel
+%defattr(644,root,root,755)
+%{_libdir}/liblapack.so
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/liblapack.a
 
 %files -n blas 
 %defattr(644,root,root,755)
-%{_libdir}/libblas.*
+%{_libdir}/libblas.so.*.*.*
+
+%files -n blas-devel
+%defattr(644,root,root,755)
+%{_libdir}/libblas.so
+
+%files -n blas-static
+%defattr(644,root,root,755)
+%{_libdir}/libblas.a
+
 
 %files -n blas-man -f blasmans.list
 %defattr(644,root,root,755)
