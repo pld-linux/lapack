@@ -120,10 +120,10 @@ Biblioteki statyczne BLAS.
 mv -f INSTALL install
 
 %build
-rm -f ltmain.sh
+rm -f ltmain.sh missing
 %{__libtoolize}
-aclocal
-autoheader
+%{__aclocal}
+%{__autoheader}
 %{__autoconf}
 %{__automake}
 %configure
