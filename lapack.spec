@@ -15,8 +15,8 @@ URL:		http://www.netlib.org/lapack/
 BuildRequires:	gcc-g77
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool >= 1:1.4.2-9
-Requires:	blas = %{version}
+BuildRequires:	libtool >= 2:1.5
+Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -48,8 +48,8 @@ napisany w Fortranie 77.
 Summary:	LAPACK header files
 Summary(pl):	Pliki nag³ówkowe LAPACK
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
-Requires:	blas-devel = %{version}
+Requires:	%{name} = %{version}-%{release}
+Requires:	blas-devel = %{version}-%{release}
 Obsoletes:	lapack-man
 
 %description devel
@@ -62,7 +62,7 @@ Pliki nag³ówkowe LAPACK.
 Summary:	Static LAPACK libraries
 Summary(pl):	Biblioteki statyczne LAPACK
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static LAPACK libraries.
@@ -99,7 +99,7 @@ pod dan± architekturê.
 Summary:	BLAS header files
 Summary(pl):	Pliki nag³ówkowe BLAS
 Group:		Development/Libraries
-Requires:	blas = %{version}
+Requires:	blas = %{version}-%{release}
 Obsoletes:	blas-man
 
 %description -n blas-devel
@@ -112,7 +112,7 @@ Pliki nag³ówkowe BLAS.
 Summary:	Static BLAS libraries
 Summary(pl):	Biblioteki statyczne BLAS
 Group:		Development/Libraries
-Requires:	blas-devel = %{version}
+Requires:	blas-devel = %{version}-%{release}
 
 %description -n blas-static
 Static BLAS libraries.
@@ -128,7 +128,6 @@ Biblioteki statyczne BLAS.
 mv -f INSTALL install
 
 %build
-rm -f ltmain.sh missing
 %{__libtoolize}
 %{__aclocal}
 %{__autoheader}
@@ -136,16 +135,14 @@ rm -f ltmain.sh missing
 %{__automake}
 %configure
 
-# libtool 1.4d requires --tag for g77, libtool 1.4.2 fails when --tag is passed
-LTTAG=""
-grep -q -e '--tag' `which libtool` && LTTAG="--tag=F77"
-
-%{__make} LTTAG="$LTTAG"
+%{__make} \
+	LTTAG="--tag=F77"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 # present both in blas and lapack
 rm -f man/manl/{lsame,xerbla}.l
