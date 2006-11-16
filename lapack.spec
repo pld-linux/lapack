@@ -13,9 +13,9 @@ Patch0:		%{name}-automake_support.patch
 Patch1:		%{name}-20010525.patch
 Patch2:		%{name}-gcc420.patch
 URL:		http://www.netlib.org/lapack/
-BuildRequires:	gcc-g77
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	gcc-g77
 BuildRequires:	libtool >= 2:1.5
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
