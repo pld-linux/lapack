@@ -1,5 +1,5 @@
 Summary:	The LAPACK libraries for numerical linear algebra
-Summary(pl):	Biblioteki numeryczne LAPACK do algebry liniowej
+Summary(pl.UTF-8):   Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.0
 Release:	19
@@ -33,21 +33,21 @@ not general sparse matrices. Similar functionality is provided for
 real and complex matrices in both single and double precision. LAPACK
 is coded in Fortran77.
 
-%description -l pl
-LAPACK (Linear Algebra PACKage) jest standardow± bibliotek± numeryczn±
-do algebry liniowej. Dostarcza funkcje rozwi±zywania: uk³adów równañ
-liniowych, uk³adów równañ metod± najmniejszych kwadratów, problemów
-w³asnych. Zawiera algorytmy faktoryzacji macierzy (LU, Cholesky'ego,
-QR, SVD, Schura, uogólnion± Schura) i zwi±zanych z tym obliczeñ (np.
-przenumerowywanie w faktoryzacji Schura i estymacjê uwarunkowania).
-LAPACK mo¿e obs³ugiwaæ macierze blokowe i pasmowe, ale nie rzadkie w
-ogólnym przypadku. Zapewnia funkcjonalno¶æ dla macierzy rzeczywistych
-i zespolonych, dla liczb pojedynczej i podwójnej precyzji. LAPACK jest
+%description -l pl.UTF-8
+LAPACK (Linear Algebra PACKage) jest standardowÄ… bibliotekÄ… numerycznÄ…
+do algebry liniowej. Dostarcza funkcje rozwiÄ…zywania: ukÅ‚adÃ³w rÃ³wnaÅ„
+liniowych, ukÅ‚adÃ³w rÃ³wnaÅ„ metodÄ… najmniejszych kwadratÃ³w, problemÃ³w
+wÅ‚asnych. Zawiera algorytmy faktoryzacji macierzy (LU, Cholesky'ego,
+QR, SVD, Schura, uogÃ³lnionÄ… Schura) i zwiÄ…zanych z tym obliczeÅ„ (np.
+przenumerowywanie w faktoryzacji Schura i estymacjÄ™ uwarunkowania).
+LAPACK moÅ¼e obsÅ‚ugiwaÄ‡ macierze blokowe i pasmowe, ale nie rzadkie w
+ogÃ³lnym przypadku. Zapewnia funkcjonalnoÅ›Ä‡ dla macierzy rzeczywistych
+i zespolonych, dla liczb pojedynczej i podwÃ³jnej precyzji. LAPACK jest
 napisany w Fortranie 77.
 
 %package devel
 Summary:	LAPACK header files
-Summary(pl):	Pliki nag³ówkowe LAPACK
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe LAPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	blas-devel = %{version}-%{release}
@@ -56,24 +56,24 @@ Obsoletes:	lapack-man
 %description devel
 LAPACK header files.
 
-%description devel -l pl
-Pliki nag³ówkowe LAPACK.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe LAPACK.
 
 %package static
 Summary:	Static LAPACK libraries
-Summary(pl):	Biblioteki statyczne LAPACK
+Summary(pl.UTF-8):   Biblioteki statyczne LAPACK
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static LAPACK libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Biblioteki statyczne LAPACK.
 
 %package -n blas
 Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux
-Summary(pl):	Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
+Summary(pl.UTF-8):   Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
 Group:		Development/Libraries
 Obsoletes:	lapack-blas
 
@@ -86,19 +86,19 @@ linear algebra. BLAS is fast and well-tested, was written in FORTRAN
 Warning: this is a reference implementation from Netlib. If possible,
 use version optimized for your architecture instead.
 
-%description -n blas -l pl
-BLAS (Basic Linear Algebra Subprograms) jest standardow± bibliotek±
-numeryczn± algebry. Dostarcza wiele podstawowych algorytmów dla
-algebry liniowej. Jest szybka i dobrze przetestowana, zosta³a napisana
+%description -n blas -l pl.UTF-8
+BLAS (Basic Linear Algebra Subprograms) jest standardowÄ… bibliotekÄ…
+numerycznÄ… algebry. Dostarcza wiele podstawowych algorytmÃ³w dla
+algebry liniowej. Jest szybka i dobrze przetestowana, zostaÅ‚a napisana
 w Fortranie 77.
 
-Ostrze¿enie: to jest implementacja przyk³adowa z repozytorium Netlib.
-Je¿eli to mo¿liwe, nale¿y u¿ywaæ zamiast niej wersji zoptymalizowanej
-pod dan± architekturê.
+OstrzeÅ¼enie: to jest implementacja przykÅ‚adowa z repozytorium Netlib.
+JeÅ¼eli to moÅ¼liwe, naleÅ¼y uÅ¼ywaÄ‡ zamiast niej wersji zoptymalizowanej
+pod danÄ… architekturÄ™.
 
 %package -n blas-devel
 Summary:	BLAS header files
-Summary(pl):	Pliki nag³ówkowe BLAS
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe BLAS
 Group:		Development/Libraries
 Requires:	blas = %{version}-%{release}
 Obsoletes:	blas-man
@@ -106,19 +106,19 @@ Obsoletes:	blas-man
 %description -n blas-devel
 BLAS header files.
 
-%description -n blas-devel -l pl
-Pliki nag³ówkowe BLAS.
+%description -n blas-devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe BLAS.
 
 %package -n blas-static
 Summary:	Static BLAS libraries
-Summary(pl):	Biblioteki statyczne BLAS
+Summary(pl.UTF-8):   Biblioteki statyczne BLAS
 Group:		Development/Libraries
 Requires:	blas-devel = %{version}-%{release}
 
 %description -n blas-static
 Static BLAS libraries.
 
-%description -n blas-static -l pl
+%description -n blas-static -l pl.UTF-8
 Biblioteki statyczne BLAS.
 
 %prep
