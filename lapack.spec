@@ -1,5 +1,5 @@
 Summary:	The LAPACK libraries for numerical linear algebra
-Summary(pl.UTF-8):   Biblioteki numeryczne LAPACK do algebry liniowej
+Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.0
 Release:	19
@@ -47,7 +47,7 @@ napisany w Fortranie 77.
 
 %package devel
 Summary:	LAPACK header files
-Summary(pl.UTF-8):   Pliki nagłówkowe LAPACK
+Summary(pl.UTF-8):	Pliki nagłówkowe LAPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	blas-devel = %{version}-%{release}
@@ -61,7 +61,7 @@ Pliki nagłówkowe LAPACK.
 
 %package static
 Summary:	Static LAPACK libraries
-Summary(pl.UTF-8):   Biblioteki statyczne LAPACK
+Summary(pl.UTF-8):	Biblioteki statyczne LAPACK
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -73,7 +73,7 @@ Biblioteki statyczne LAPACK.
 
 %package -n blas
 Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux
-Summary(pl.UTF-8):   Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
+Summary(pl.UTF-8):	Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
 Group:		Development/Libraries
 Obsoletes:	lapack-blas
 
@@ -98,7 +98,7 @@ pod daną architekturę.
 
 %package -n blas-devel
 Summary:	BLAS header files
-Summary(pl.UTF-8):   Pliki nagłówkowe BLAS
+Summary(pl.UTF-8):	Pliki nagłówkowe BLAS
 Group:		Development/Libraries
 Requires:	blas = %{version}-%{release}
 Obsoletes:	blas-man
@@ -111,7 +111,7 @@ Pliki nagłówkowe BLAS.
 
 %package -n blas-static
 Summary:	Static BLAS libraries
-Summary(pl.UTF-8):   Biblioteki statyczne BLAS
+Summary(pl.UTF-8):	Biblioteki statyczne BLAS
 Group:		Development/Libraries
 Requires:	blas-devel = %{version}-%{release}
 
