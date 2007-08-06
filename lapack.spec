@@ -7,8 +7,8 @@ License:	freely distributable
 Group:		Development/Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
 # Source0-md5:	00b21551a899bcfbaa7b8443e1faeef9
-Source1:	http://www.netlib.org/lapack/manpages.tgz
-# Source1-md5:	e753c850468a4a08db3a4d7bcdd53e6e
+Source1:	http://www.netlib.org/lapack/manpages-%{version}.tgz
+# Source1-md5:	e5b46d8915f7cc8a1e50aa3e70c9f86e
 Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	autoconf
