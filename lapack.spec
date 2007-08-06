@@ -1,21 +1,19 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.0
-Release:	19
+Version:	3.1.1
+Release:	1
 License:	freely distributable
 Group:		Development/Libraries
-Source0:	http://www.netlib.org/lapack/%{name}.tgz
-# Source0-md5:	a24f59304f87b78cdc7da2ae59c98664
+Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
+# Source0-md5:	00b21551a899bcfbaa7b8443e1faeef9
 Source1:	http://www.netlib.org/lapack/manpages.tgz
-# Source1-md5:	50efab6cd73a9429584f7f1537f1727f
+# Source1-md5:	e753c850468a4a08db3a4d7bcdd53e6e
 Patch0:		%{name}-automake_support.patch
-Patch1:		%{name}-20010525.patch
-Patch2:		%{name}-gcc420.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gcc-g77
+BuildRequires:	gcc-fortran
 BuildRequires:	libtool >= 2:1.5
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -122,10 +120,8 @@ Static BLAS libraries.
 Biblioteki statyczne BLAS.
 
 %prep
-%setup -q -a1 -n LAPACK
+%setup -q -a1
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 # directory INSTALL conflicts with file INSTALL needed by automake
 mv -f INSTALL install
 
