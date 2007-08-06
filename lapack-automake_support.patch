@@ -31,15 +31,14 @@ diff -Nur lapack-3.1.1.orig/BLAS/SRC/Makefile.am lapack-3.1.1/BLAS/SRC/Makefile.
 diff -Nur lapack-3.1.1.orig/configure.in lapack-3.1.1/configure.in
 --- lapack-3.1.1.orig/configure.in	1970-01-01 01:00:00.000000000 +0100
 +++ lapack-3.1.1/configure.in	2007-08-06 22:04:22.000000000 +0100
-@@ -0,0 +1,29 @@
+@@ -0,0 +1,28 @@
 +dnl Process this file with autoconf to produce a configure script.
 +
 +dnl very poor automake/autoconf support to 
 +dnl build static and shared libraries only 
 +dnl klakier@pld.org.pl
 +
-+dnl hmm equivalence.c is characteristic for lapack
-+AC_INIT(equivalence.c)
++AC_INIT
 +AM_INIT_AUTOMAKE(lapack, 3.1.1)
 +AM_CONFIG_HEADER(config.h)
 +
