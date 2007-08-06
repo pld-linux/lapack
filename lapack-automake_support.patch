@@ -40,7 +40,7 @@ diff -Nur lapack-3.1.1.orig/configure.in lapack-3.1.1/configure.in
 +
 +dnl hmm equivalence.c is characteristic for lapack
 +AC_INIT(equivalence.c)
-+AM_INIT_AUTOMAKE(lapack, 3.0.0)
++AM_INIT_AUTOMAKE(lapack, 3.1.1)
 +AM_CONFIG_HEADER(config.h)
 +
 +dnl Checks for programs.
