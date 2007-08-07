@@ -146,14 +146,14 @@ rm -rf $RPM_BUILD_ROOT
 rm -f man/manl/{lsame,xerbla}.l
 
 install -d $RPM_BUILD_ROOT%{_mandir}/man3
-for d in man/manl/*.l blas/man/manl/*.l ; do
+for d in manpages/man/manl/*.l manpages/blas/man/manl/*.l ; do
 	install $d $RPM_BUILD_ROOT%{_mandir}/man3/`basename $d .l`.3
 done
 
 echo "%defattr(644, root, root, 755)" > blasmans.list
-find blas/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> blasmans.list
+find manpages/blas/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> blasmans.list
 echo "%defattr(644, root, root, 755)" > mans.list
-find man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> mans.list
+find manpages/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> mans.list
 
 %clean
 rm -fr $RPM_BUILD_ROOT
