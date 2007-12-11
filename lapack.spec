@@ -2,7 +2,7 @@ Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.1.1
-Release:	3
+Release:	4
 License:	freely distributable
 Group:		Development/Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
@@ -17,6 +17,9 @@ BuildRequires:	gcc-fortran
 BuildRequires:	libtool >= 2:1.5
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# see http://www.netlib.org/lapack/faq.html#1.13
+%define       rpmcflags -O0
 
 %description
 LAPACK (Linear Algebra PACKage) is a standard library for numerical
