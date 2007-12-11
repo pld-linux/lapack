@@ -18,7 +18,9 @@ BuildRequires:	libtool >= 2:1.5
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# see http://www.netlib.org/lapack/faq.html#1.13
+# see http://www.netlib.org/lapack/faq.html#1.13 (2nd note from top)
+# and http://www.netlib.org/lapack/faq.html#1.25
+# anybody to prepare appropriate fix?
 %define       rpmcflags -O0
 
 %description
