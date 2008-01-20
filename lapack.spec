@@ -4,7 +4,7 @@ Name:		lapack
 Version:	3.1.1
 Release:	4
 License:	freely distributable
-Group:		Development/Libraries
+Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
 # Source0-md5:	00b21551a899bcfbaa7b8443e1faeef9
 Source1:	http://www.netlib.org/lapack/manpages-%{version}.tgz
@@ -77,7 +77,7 @@ Biblioteki statyczne LAPACK.
 %package -n blas
 Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux
 Summary(pl.UTF-8):	Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
-Group:		Development/Libraries
+Group:		Libraries
 Obsoletes:	lapack-blas
 
 %description -n blas
