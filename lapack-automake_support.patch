@@ -31,7 +31,7 @@ diff -Nur lapack-3.1.1.orig/BLAS/SRC/Makefile.am lapack-3.1.1/BLAS/SRC/Makefile.
 diff -Nur lapack-3.1.1.orig/configure.in lapack-3.1.1/configure.in
 --- lapack-3.1.1.orig/configure.in	1970-01-01 01:00:00.000000000 +0100
 +++ lapack-3.1.1/configure.in	2007-08-06 22:04:22.000000000 +0100
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,18 @@
 +dnl Process this file with autoconf to produce a configure script.
 +
 +dnl very poor automake/autoconf support to 
@@ -45,18 +45,8 @@ diff -Nur lapack-3.1.1.orig/configure.in lapack-3.1.1/configure.in
 +dnl Checks for programs.
 +AC_ISC_POSIX
 +AC_PROG_CC
-+dnl AC_PROG_RANLIB
 +AC_PROG_F77
-+AM_PROG_LIBTOOL
-+
-+dnl Checks for libraries.
-+
-+dnl Checks for header files.
-+dnl AC_STDC_HEADERS
-+dnl AC_HAVE_HEADERS(string.h fcntl.h sys/file.h sys/param.h)
-+dnl Checks for library functions.
-+dnl AC_FUNC_ALLOCA
-+
++AC_PROG_LIBTOOL
 +
 +AC_OUTPUT([Makefile SRC/Makefile BLAS/Makefile BLAS/SRC/Makefile])
 +
@@ -68,7 +58,7 @@ diff -Nur lapack-3.1.1.orig/Makefile.am lapack-3.1.1/Makefile.am
 diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 --- lapack-3.1.1.orig/SRC/Makefile.am	1970-01-01 01:00:00.000000000 +0100
 +++ lapack-3.1.1/SRC/Makefile.am	2007-08-06 22:06:57.000000000 +0100
-@@ -0,0 +1,176 @@
+@@ -0,0 +1,179 @@
 +LIBTOOL = $(SHELL) $(top_builddir)/libtool $(LTTAG)
 +lib_LTLIBRARIES = liblapack.la
 +liblapack_la_LDFLAGS = -version-info $(subst .,:,@VERSION@)
@@ -245,3 +235,6 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	zunmhr.f zunml2.f zunmlq.f zunmql.f zunmqr.f zunmr2.f zunmr3.f zunmrq.f \
 +	zunmrz.f zunmtr.f zupgtr.f zupmtr.f \
 +	slamch.f dlamch.f dsecnd_INT_ETIME.f second_INT_ETIME.f
++
++# these sources use hacks to detect fp precision, optimization would break them
++slamch.lo dlamch.lo:: FFLAGS += -O0
