@@ -2,7 +2,7 @@ Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.1.1
-Release:	4
+Release:	5
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
@@ -17,11 +17,6 @@ BuildRequires:	gcc-fortran
 BuildRequires:	libtool >= 2:1.5
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-# see http://www.netlib.org/lapack/faq.html#1.13 (2nd note from top)
-# and http://www.netlib.org/lapack/faq.html#1.25
-# anybody to prepare appropriate fix?
-%define       rpmcflags -O0
 
 %description
 LAPACK (Linear Algebra PACKage) is a standard library for numerical
@@ -49,18 +44,18 @@ i zespolonych, dla liczb pojedynczej i podwójnej precyzji. LAPACK jest
 napisany w Fortranie 77.
 
 %package devel
-Summary:	LAPACK header files
-Summary(pl.UTF-8):	Pliki nagłówkowe LAPACK
+Summary:	LAPACK development files
+Summary(pl.UTF-8):	Pliki programistyczne LAPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	blas-devel = %{version}-%{release}
 Obsoletes:	lapack-man
 
 %description devel
-LAPACK header files.
+LAPACK development files.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe LAPACK.
+Pliki programistyczne LAPACK.
 
 %package static
 Summary:	Static LAPACK libraries
@@ -100,17 +95,17 @@ Jeżeli to możliwe, należy używać zamiast niej wersji zoptymalizowanej
 pod daną architekturę.
 
 %package -n blas-devel
-Summary:	BLAS header files
-Summary(pl.UTF-8):	Pliki nagłówkowe BLAS
+Summary:	BLAS development files
+Summary(pl.UTF-8):	Pliki programistyczne BLAS
 Group:		Development/Libraries
 Requires:	blas = %{version}-%{release}
 Obsoletes:	blas-man
 
 %description -n blas-devel
-BLAS header files.
+BLAS development files.
 
 %description -n blas-devel -l pl.UTF-8
-Pliki nagłówkowe BLAS.
+Pliki programistyczne BLAS.
 
 %package -n blas-static
 Summary:	Static BLAS libraries
@@ -157,9 +152,9 @@ for d in manpages/man/manl/*.l manpages/blas/man/manl/*.l ; do
 	install $d $RPM_BUILD_ROOT%{_mandir}/man3/`basename $d .l`.3
 done
 
-echo "%defattr(644, root, root, 755)" > blasmans.list
+echo "%defattr(644,root,root,755)" > blasmans.list
 find manpages/blas/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> blasmans.list
-echo "%defattr(644, root, root, 755)" > mans.list
+echo "%defattr(644,root,root,755)" > mans.list
 find manpages/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> mans.list
 
 %clean
@@ -175,6 +170,7 @@ rm -fr $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README
 %attr(755,root,root) %{_libdir}/liblapack.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/liblapack.so.2
 
 %files devel -f mans.list
 %defattr(644,root,root,755)
@@ -188,6 +184,7 @@ rm -fr $RPM_BUILD_ROOT
 %files -n blas
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libblas.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libblas.so.2
 
 %files -n blas-devel -f blasmans.list
 %defattr(644,root,root,755)
