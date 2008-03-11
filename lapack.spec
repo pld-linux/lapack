@@ -13,7 +13,7 @@ Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gcc-fortran
+BuildRequires:	gcc-g77
 BuildRequires:	libtool >= 2:1.5
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
