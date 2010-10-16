@@ -1,14 +1,15 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.1.1
-Release:	6
+Version:	3.2.2
+%define	man_ver	3.2.0
+Release:	1
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	00b21551a899bcfbaa7b8443e1faeef9
-Source1:	http://www.netlib.org/lapack/manpages-%{version}.tgz
-# Source1-md5:	e5b46d8915f7cc8a1e50aa3e70c9f86e
+# Source0-md5:	10832891c9e8100f81108c1ec7da0da4
+Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
+# Source1-md5:	145007cab915504caec382289462a166
 Patch0:		%{name}-automake_support.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	autoconf
@@ -122,10 +123,11 @@ Biblioteki statyczne BLAS.
 %prep
 %setup -q -a1
 %patch0 -p1
+mv -f lapack-%{man_ver}/manpages .
 # directory INSTALL conflicts with file INSTALL needed by automake
-mv -f INSTALL install
-# or maybe it should fail while trying to overwrite a file?
-cp -f install/*.f SRC/
+mv -f INSTALL INSTALLSRC
+# copy selected routines; use INT_ETIME versions of second
+cp -f INSTALLSRC/{ilaver,slamch,dlamch,second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
 
 %build
 %{__libtoolize}
@@ -135,8 +137,7 @@ cp -f install/*.f SRC/
 %{__automake}
 %configure
 
-%{__make} \
-	LTTAG="--tag=F77"
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -145,7 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 # present both in blas and lapack
-rm -f man/manl/{lsame,xerbla}.l
+%{__rm} manpages/man/manl/{lsame,xerbla,xerbla_array}.l
 
 install -d $RPM_BUILD_ROOT%{_mandir}/man3
 for d in manpages/man/manl/*.l manpages/blas/man/manl/*.l ; do
