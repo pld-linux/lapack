@@ -3,7 +3,7 @@ Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.2.2
 %define	man_ver	3.2.0
-Release:	1
+Release:	2
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
@@ -11,6 +11,7 @@ Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
 # Source1-md5:	145007cab915504caec382289462a166
 Patch0:		%{name}-automake_support.patch
+Patch1:		blas-nan.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -123,6 +124,7 @@ Biblioteki statyczne BLAS.
 %prep
 %setup -q -a1
 %patch0 -p1
+%patch1 -p1
 mv -f lapack-%{man_ver}/manpages .
 # directory INSTALL conflicts with file INSTALL needed by automake
 mv -f INSTALL INSTALLSRC
