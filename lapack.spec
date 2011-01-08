@@ -1,13 +1,13 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.2.2
+Version:	3.3.0
 %define	man_ver	3.2.0
-Release:	2
+Release:	1
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	10832891c9e8100f81108c1ec7da0da4
+# Source0-md5:	84213fca70936cc5f1b59a7b1bf71697
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
 # Source1-md5:	145007cab915504caec382289462a166
 Patch0:		%{name}-automake_support.patch

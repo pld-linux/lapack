@@ -3,34 +3,42 @@ diff -Nur lapack-3.1.1.orig/BLAS/Makefile.am lapack-3.1.1/BLAS/Makefile.am
 +++ lapack-3.1.1/BLAS/Makefile.am	2007-08-06 22:04:22.000000000 +0100
 @@ -0,0 +1 @@
 +SUBDIRS=SRC
-diff -Nur lapack-3.1.1.orig/BLAS/SRC/Makefile.am lapack-3.1.1/BLAS/SRC/Makefile.am
---- lapack-3.1.1.orig/BLAS/SRC/Makefile.am	1970-01-01 01:00:00.000000000 +0100
-+++ lapack-3.1.1/BLAS/SRC/Makefile.am	2007-08-06 22:05:32.000000000 +0100
-@@ -0,0 +1,21 @@
+--- lapack-3.3.0.orig/BLAS/SRC/Makefile.am	1970-01-01 01:00:00.000000000 +0100
++++ lapack-3.3.0/BLAS/SRC/Makefile.am	2007-08-06 22:05:32.000000000 +0100
+@@ -0,0 +1,31 @@
 +LIBTOOL = $(SHELL) $(top_builddir)/libtool --tag=F77
 +lib_LTLIBRARIES = libblas.la
 +libblas_la_LDFLAGS = -version-info @LIBVERSION@
 +libblas_la_SOURCES= \
-+	caxpy.f ccopy.f cdotc.f cdotu.f cgbmv.f cgemm.f cgemv.f cgerc.f cgeru.f \
-+	chbmv.f chemm.f chemv.f cher2.f cher2k.f cher.f cherk.f chpmv.f chpr2.f \
-+	chpr.f crotg.f cscal.f csrot.f csscal.f cswap.f csymm.f csyr2k.f csyrk.f \
-+	ctbmv.f ctbsv.f ctpmv.f ctpsv.f ctrmm.f ctrmv.f ctrsm.f ctrsv.f dasum.f \
-+	daxpy.f dcabs1.f dcopy.f ddot.f dgbmv.f dgemm.f dgemv.f dger.f dnrm2.f \
-+	drot.f drotg.f drotm.f drotmg.f dsbmv.f dscal.f dsdot.f dspmv.f dspr2.f \
-+	dspr.f dswap.f dsymm.f dsymv.f dsyr2.f dsyr2k.f dsyr.f dsyrk.f dtbmv.f \
-+	dtbsv.f dtpmv.f dtpsv.f dtrmm.f dtrmv.f dtrsm.f dtrsv.f dzasum.f dznrm2.f \
-+	icamax.f idamax.f isamax.f izamax.f lsame.f sasum.f saxpy.f scabs1.f \
-+	scasum.f scnrm2.f scopy.f sdot.f sdsdot.f sgbmv.f sgemm.f sgemv.f sger.f \
-+	snrm2.f srot.f srotg.f srotm.f srotmg.f ssbmv.f sscal.f sspmv.f sspr2.f \
-+	sspr.f sswap.f ssymm.f ssymv.f ssyr2.f ssyr2k.f ssyr.f ssyrk.f stbmv.f \
-+	stbsv.f stpmv.f stpsv.f strmm.f strmv.f strsm.f strsv.f xerbla.f xerbla_array.f zaxpy.f \
-+	zcopy.f zdotc.f zdotu.f zdrot.f zdscal.f zgbmv.f zgemm.f zgemv.f zgerc.f \
-+	zgeru.f zhbmv.f zhemm.f zhemv.f zher2.f zher2k.f zher.f zherk.f zhpmv.f \
-+	zhpr2.f zhpr.f zrotg.f zscal.f zswap.f zsymm.f zsyr2k.f zsyrk.f ztbmv.f \
-+	ztbsv.f ztpmv.f ztpsv.f ztrmm.f ztrmv.f ztrsm.f ztrsv.f
-diff -Nur lapack-3.1.1.orig/configure.in lapack-3.1.1/configure.in
---- lapack-3.1.1.orig/configure.in	1970-01-01 01:00:00.000000000 +0100
-+++ lapack-3.1.1/configure.in	2007-08-06 22:04:22.000000000 +0100
++	isamax.f sasum.f saxpy.f scopy.f sdot.f snrm2.f \
++	srot.f srotg.f sscal.f sswap.f sdsdot.f srotmg.f srotm.f \
++	scabs1.f scasum.f scnrm2.f icamax.f caxpy.f ccopy.f \
++	cdotc.f cdotu.f csscal.f crotg.f cscal.f cswap.f csrot.f \
++	idamax.f dasum.f daxpy.f dcopy.f ddot.f dnrm2.f \
++	drot.f drotg.f dscal.f dsdot.f dswap.f drotmg.f drotm.f \
++	dcabs1.f dzasum.f dznrm2.f izamax.f zaxpy.f zcopy.f \
++	zdotc.f zdotu.f zdscal.f zrotg.f zscal.f zswap.f zdrot.f \
++	lsame.f xerbla.f xerbla_array.f \
++	sgemv.f sgbmv.f ssymv.f ssbmv.f sspmv.f \
++	strmv.f stbmv.f stpmv.f strsv.f stbsv.f stpsv.f \
++	sger.f ssyr.f sspr.f ssyr2.f sspr2.f \
++	cgemv.f cgbmv.f chemv.f chbmv.f chpmv.f \
++	ctrmv.f ctbmv.f ctpmv.f ctrsv.f ctbsv.f ctpsv.f \
++	cgerc.f cgeru.f cher.f chpr.f cher2.f chpr2.f \
++	dgemv.f dgbmv.f dsymv.f dsbmv.f dspmv.f \
++	dtrmv.f dtbmv.f dtpmv.f dtrsv.f dtbsv.f dtpsv.f \
++	dger.f dsyr.f dspr.f dsyr2.f dspr2.f \
++	zgemv.f zgbmv.f zhemv.f zhbmv.f zhpmv.f \
++	ztrmv.f ztbmv.f ztpmv.f ztrsv.f ztbsv.f ztpsv.f \
++	zgerc.f zgeru.f zher.f zhpr.f zher2.f zhpr2.f \
++	sgemm.f ssymm.f ssyrk.f ssyr2k.f strmm.f strsm.f \
++	cgemm.f csymm.f csyrk.f csyr2k.f ctrmm.f ctrsm.f \
++	chemm.f cherk.f cher2k.f \
++	dgemm.f dsymm.f dsyrk.f dsyr2k.f dtrmm.f dtrsm.f \
++	zgemm.f zsymm.f zsyrk.f zsyr2k.f ztrmm.f ztrsm.f \
++	zhemm.f zherk.f zher2k.f
+--- lapack-3.3.0.orig/configure.in	1970-01-01 01:00:00.000000000 +0100
++++ lapack-3.3.0/configure.in	2007-08-06 22:04:22.000000000 +0100
 @@ -0,0 +1,19 @@
 +dnl Process this file with autoconf to produce a configure script.
 +
@@ -39,8 +47,8 @@ diff -Nur lapack-3.1.1.orig/configure.in lapack-3.1.1/configure.in
 +dnl klakier@pld.org.pl
 +
 +AC_INIT
-+AM_INIT_AUTOMAKE(lapack, 3.2.2)
-+LIBVERSION="5:2:3"
++AM_INIT_AUTOMAKE(lapack, 3.3.0)
++LIBVERSION="6:0:4"
 +AC_SUBST([LIBVERSION])
 +AM_CONFIG_HEADER(config.h)
 +
@@ -56,10 +64,9 @@ diff -Nur lapack-3.1.1.orig/Makefile.am lapack-3.1.1/Makefile.am
 +++ lapack-3.1.1/Makefile.am	2007-08-06 22:04:22.000000000 +0100
 @@ -0,0 +1 @@
 +SUBDIRS=BLAS SRC
-diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
---- lapack-3.1.1.orig/SRC/Makefile.am	1970-01-01 01:00:00.000000000 +0100
-+++ lapack-3.1.1/SRC/Makefile.am	2007-08-06 22:06:57.000000000 +0100
-@@ -0,0 +1,301 @@
+--- lapack-3.3.0.orig/SRC/Makefile.am	1970-01-01 01:00:00.000000000 +0100
++++ lapack-3.3.0/SRC/Makefile.am	2007-08-06 22:06:57.000000000 +0100
+@@ -0,0 +1,311 @@
 +LIBTOOL = $(SHELL) $(top_builddir)/libtool --tag=F77
 +lib_LTLIBRARIES = liblapack.la
 +liblapack_la_LDFLAGS = -version-info @LIBVERSION@
@@ -83,6 +90,7 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	slaset.f slasq1.f slasq2.f slasq3.f slasq4.f slasq5.f slasq6.f \
 +	slasr.f  slasrt.f slassq.f slasv2.f spttrf.f sstebz.f sstedc.f \
 +	ssteqr.f ssterf.f slaisnan.f sisnan.f \
++	slartgp.f slartgs.f \
 +	slamch.f second_INT_ETIME.f \
 +	dbdsdc.f \
 +	dbdsqr.f ddisna.f dlabad.f dlacpy.f dladiv.f dlae2.f  dlaebz.f \
@@ -98,6 +106,7 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	dlaset.f dlasq1.f dlasq2.f dlasq3.f dlasq4.f dlasq5.f dlasq6.f \
 +	dlasr.f  dlasrt.f dlassq.f dlasv2.f dpttrf.f dstebz.f dstedc.f \
 +	dsteqr.f dsterf.f dlaisnan.f disnan.f \
++	dlartgp.f dlartgs.f \
 +	dlamch.f dsecnd_INT_ETIME.f \
 +	sgbbrd.f sgbcon.f sgbequ.f sgbrfs.f sgbsv.f \
 +	sgbsvx.f sgbtf2.f sgbtrf.f sgbtrs.f sgebak.f sgebal.f sgebd2.f \
@@ -141,7 +150,8 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	ssptrf.f ssptri.f ssptrs.f sstegr.f sstein.f sstev.f  sstevd.f sstevr.f \
 +	sstevx.f ssycon.f ssyev.f  ssyevd.f ssyevr.f ssyevx.f ssygs2.f \
 +	ssygst.f ssygv.f  ssygvd.f ssygvx.f ssyrfs.f ssysv.f  ssysvx.f \
-+	ssytd2.f ssytf2.f ssytrd.f ssytrf.f ssytri.f ssytrs.f stbcon.f \
++	ssytd2.f ssytf2.f ssytrd.f ssytrf.f ssytri.f ssytri2.f ssytri2x.f \
++	ssyswapr.f ssytrs.f ssytrs2.f ssyconv.f stbcon.f \
 +	stbrfs.f stbtrs.f stgevc.f stgex2.f stgexc.f stgsen.f \
 +	stgsja.f stgsna.f stgsy2.f stgsyl.f stpcon.f stprfs.f stptri.f \
 +	stptrs.f \
@@ -151,6 +161,7 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	stfttr.f stpttf.f stpttr.f strttf.f strttp.f \
 +	sgejsv.f  sgesvj.f  sgsvj0.f  sgsvj1.f \
 +	sgeequb.f ssyequb.f spoequb.f sgbequb.f \
++	sbbcsd.f slapmr.f sorbdb.f sorcsd.f \
 +	cbdsqr.f cgbbrd.f cgbcon.f cgbequ.f cgbrfs.f cgbsv.f  cgbsvx.f \
 +	cgbtf2.f cgbtrf.f cgbtrs.f cgebak.f cgebal.f cgebd2.f cgebrd.f \
 +	cgecon.f cgeequ.f cgees.f  cgeesx.f cgeev.f  cgeevx.f \
@@ -167,7 +178,7 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	checon.f cheev.f  cheevd.f cheevr.f cheevx.f chegs2.f chegst.f \
 +	chegv.f  chegvd.f chegvx.f cherfs.f chesv.f  chesvx.f chetd2.f \
 +	chetf2.f chetrd.f \
-+	chetrf.f chetri.f chetrs.f chgeqz.f chpcon.f chpev.f  chpevd.f \
++	chetrf.f chetri.f chetrs.f chetrs2.f chgeqz.f chpcon.f chpev.f  chpevd.f \
 +	chpevx.f chpgst.f chpgv.f  chpgvd.f chpgvx.f chprfs.f chpsv.f \
 +	chpsvx.f \
 +	chptrd.f chptrf.f chptri.f chptrs.f chsein.f chseqr.f clabrd.f \
@@ -195,7 +206,8 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	cspsvx.f csptrf.f csptri.f csptrs.f csrscl.f cstedc.f \
 +	cstegr.f cstein.f csteqr.f csycon.f csymv.f \
 +	csyr.f   csyrfs.f csysv.f  csysvx.f csytf2.f csytrf.f csytri.f \
-+	csytrs.f ctbcon.f ctbrfs.f ctbtrs.f ctgevc.f ctgex2.f \
++	csytri2.f csytri2x.f csyswapr.f \
++	csytrs.f csytrs2.f csyconv.f ctbcon.f ctbrfs.f ctbtrs.f ctgevc.f ctgex2.f \
 +	ctgexc.f ctgsen.f ctgsja.f ctgsna.f ctgsy2.f ctgsyl.f ctpcon.f \
 +	ctprfs.f ctptri.f \
 +	ctptrs.f ctrcon.f ctrevc.f ctrexc.f ctrrfs.f ctrsen.f ctrsna.f \
@@ -207,6 +219,7 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	chfrk.f ctfttp.f clanhf.f cpftrf.f cpftri.f cpftrs.f ctfsm.f ctftri.f \
 +	ctfttr.f ctpttf.f ctpttr.f ctrttf.f ctrttp.f \
 +	cgeequb.f cgbequb.f csyequb.f cpoequb.f cheequb.f \
++	cbbcsd.f clapmr.f cunbdb.f cuncsd.f \
 +	dgbbrd.f dgbcon.f dgbequ.f dgbrfs.f dgbsv.f \
 +	dgbsvx.f dgbtf2.f dgbtrf.f dgbtrs.f dgebak.f dgebal.f dgebd2.f \
 +	dgebrd.f dgecon.f dgeequ.f dgees.f  dgeesx.f dgeev.f  dgeevx.f \
@@ -250,7 +263,8 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	dstevx.f dsycon.f dsyev.f  dsyevd.f dsyevr.f \
 +	dsyevx.f dsygs2.f dsygst.f dsygv.f  dsygvd.f dsygvx.f dsyrfs.f \
 +	dsysv.f  dsysvx.f \
-+	dsytd2.f dsytf2.f dsytrd.f dsytrf.f dsytri.f dsytrs.f dtbcon.f \
++	dsytd2.f dsytf2.f dsytrd.f dsytrf.f dsytri.f dsytrs.f dsytrs2.f \
++	dsytri2.f dsytri2x.f dsyswapr.f dsyconv.f dtbcon.f \
 +	dtbrfs.f dtbtrs.f dtgevc.f dtgex2.f dtgexc.f dtgsen.f \
 +	dtgsja.f dtgsna.f dtgsy2.f dtgsyl.f dtpcon.f dtprfs.f dtptri.f \
 +	dtptrs.f \
@@ -261,6 +275,7 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	dtfttr.f dtpttf.f dtpttr.f dtrttf.f dtrttp.f \
 +	dgejsv.f  dgesvj.f  dgsvj0.f  dgsvj1.f \
 +	dgeequb.f dsyequb.f dpoequb.f dgbequb.f \
++	dbbcsd.f dlapmr.f dorbdb.f dorcsd.f \
 +	zbdsqr.f zgbbrd.f zgbcon.f zgbequ.f zgbrfs.f zgbsv.f  zgbsvx.f \
 +	zgbtf2.f zgbtrf.f zgbtrs.f zgebak.f zgebal.f zgebd2.f zgebrd.f \
 +	zgecon.f zgeequ.f zgees.f  zgeesx.f zgeev.f  zgeevx.f \
@@ -277,7 +292,7 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	zhecon.f zheev.f  zheevd.f zheevr.f zheevx.f zhegs2.f zhegst.f \
 +	zhegv.f  zhegvd.f zhegvx.f zherfs.f zhesv.f  zhesvx.f zhetd2.f \
 +	zhetf2.f zhetrd.f \
-+	zhetrf.f zhetri.f zhetrs.f zhgeqz.f zhpcon.f zhpev.f  zhpevd.f \
++	zhetrf.f zhetri.f zhetrs.f zhetrs2.f zhgeqz.f zhpcon.f zhpev.f  zhpevd.f \
 +	zhpevx.f zhpgst.f zhpgv.f  zhpgvd.f zhpgvx.f zhprfs.f zhpsv.f \
 +	zhpsvx.f \
 +	zhptrd.f zhptrf.f zhptri.f zhptrs.f zhsein.f zhseqr.f zlabrd.f \
@@ -308,7 +323,8 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	zspsvx.f zsptrf.f zsptri.f zsptrs.f zdrscl.f zstedc.f \
 +	zstegr.f zstein.f zsteqr.f zsycon.f zsymv.f \
 +	zsyr.f   zsyrfs.f zsysv.f  zsysvx.f zsytf2.f zsytrf.f zsytri.f \
-+	zsytrs.f ztbcon.f ztbrfs.f ztbtrs.f ztgevc.f ztgex2.f \
++	zsytri2.f zsytri2x.f zsyswapr.f \
++	zsytrs.f zsytrs2.f zsyconv.f ztbcon.f ztbrfs.f ztbtrs.f ztgevc.f ztgex2.f \
 +	ztgexc.f ztgsen.f ztgsja.f ztgsna.f ztgsy2.f ztgsyl.f ztpcon.f \
 +	ztprfs.f ztptri.f \
 +	ztptrs.f ztrcon.f ztrevc.f ztrexc.f ztrrfs.f ztrsen.f ztrsna.f \
@@ -321,7 +337,8 @@ diff -Nur lapack-3.1.1.orig/SRC/Makefile.am lapack-3.1.1/SRC/Makefile.am
 +	zcgesv.f zcposv.f zlag2c.f clag2z.f zlat2c.f \
 +	zhfrk.f ztfttp.f zlanhf.f zpftrf.f zpftri.f zpftrs.f ztfsm.f ztftri.f \
 +	ztfttr.f ztpttf.f ztpttr.f ztrttf.f ztrttp.f \
-+	zgeequb.f zgbequb.f zsyequb.f zpoequb.f zheequb.f
++	zgeequb.f zgbequb.f zsyequb.f zpoequb.f zheequb.f \
++	zbbcsd.f zlapmr.f zunbdb.f zuncsd.f
 +# these require XBLAS
 +XBLASSRC = \
 +	sgesvxx.f sgerfsx.f sla_gerfsx_extended.f sla_geamv.f \
