@@ -1,15 +1,15 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.3.0
-%define	man_ver	3.2.0
+Version:	3.3.1
+%define	man_ver	3.3.1
 Release:	1
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	84213fca70936cc5f1b59a7b1bf71697
+# Source0-md5:	d0d533ec9a5b74933c2a1e84eedc58b4
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
-# Source1-md5:	145007cab915504caec382289462a166
+# Source1-md5:	0f88dbcf41bb53ef98890ee834da913e
 Patch0:		%{name}-automake_support.patch
 Patch1:		blas-nan.patch
 URL:		http://www.netlib.org/lapack/
@@ -125,7 +125,6 @@ Biblioteki statyczne BLAS.
 %setup -q -a1
 %patch0 -p1
 %patch1 -p1
-mv -f lapack-%{man_ver}/manpages .
 # directory INSTALL conflicts with file INSTALL needed by automake
 mv -f INSTALL INSTALLSRC
 # copy selected routines; use INT_ETIME versions of second
@@ -179,6 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/liblapack.so
 %{_libdir}/liblapack.la
+%{_pkgconfigdir}/lapack.pc
 
 %files static
 %defattr(644,root,root,755)
@@ -193,6 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libblas.so
 %{_libdir}/libblas.la
+%{_pkgconfigdir}/blas.pc
 
 %files -n blas-static
 %defattr(644,root,root,755)
