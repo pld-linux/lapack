@@ -1,15 +1,19 @@
+# NOTE: when updating automake_support patch, look both on included
+#  cmake suite and plain Makefiles - one of them is mostly outdated
+#  (as of 3.4.0, cmake misses some files added in 3.4; also it
+#   doesn't care about setting soname, so currently isn't worth using)
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.3.1
-%define	man_ver	3.3.1
+Version:	3.4.0
+%define	man_ver	3.4.0
 Release:	1
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	d0d533ec9a5b74933c2a1e84eedc58b4
+# Source0-md5:	02d5706ec03ba885fc246e5fa10d8c70
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
-# Source1-md5:	0f88dbcf41bb53ef98890ee834da913e
+# Source1-md5:	b9448c036dcfb174215ecbd207168fad
 Patch0:		%{name}-automake_support.patch
 Patch1:		blas-nan.patch
 URL:		http://www.netlib.org/lapack/
@@ -110,16 +114,65 @@ BLAS development files.
 Pliki programistyczne BLAS.
 
 %package -n blas-static
-Summary:	Static BLAS libraries
-Summary(pl.UTF-8):	Biblioteki statyczne BLAS
+Summary:	Static BLAS library
+Summary(pl.UTF-8):	Biblioteka statyczna BLAS
 Group:		Development/Libraries
 Requires:	blas-devel = %{version}-%{release}
 
 %description -n blas-static
-Static BLAS libraries.
+Static BLAS library.
 
 %description -n blas-static -l pl.UTF-8
-Biblioteki statyczne BLAS.
+Biblioteka statyczna BLAS.
+
+%package -n lapacke
+Summary:	LAPACKE - native C interface to LAPACK library routines
+Summary(pl.UTF-8):	LAPACKE - natywny interfejs C do procedur biblioteki LAPACK
+Group:		Libraries
+Requires:	lapack = %{version}-%{release}
+
+%description -n lapacke
+This library is a part of reference implementation for the C interface
+to LAPACK project according to the specifications described at the
+forum for the Intel(R) Math Kernel Library (Intel(R) MKL).
+
+This implementation provides a native C interface to LAPACK routines
+to facilitate usage of LAPACK functionality for C programmers.
+
+%description -n lapacke -l pl.UTF-8
+Ta bilioteka jest częścią implementacji referencyjnej interfejsu C do
+projektu LAPACK, zgodnej ze specyfikacją opisaną na forum biblioteki
+Intel(R) Math Kernel Library.
+
+Ta implementacja udostępnia natywny interfejs C do procedur biblioteki
+LAPACK, ułatwiając jej użycie programistom C.
+
+%package -n lapacke-devel
+Summary:	Header files for LAPACKE - native C interface to LAPACK
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki LAPACKE - natywnego interfejsu C do biblioteki LAPACK
+Group:		Development/Libraries
+Requires:	lapack-devel = %{version}-%{release}
+Requires:	lapacke = %{version}-%{release}
+
+%description -n lapacke-devel
+Header files for LAPACKE - native C interface to LAPACK.
+
+%description -n lapacke-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki LAPACKE - natywnego interfejsu C do
+biblioteki LAPACK.
+
+%package -n lapacke-static
+Summary:	Static LAPACKE library - native C interface to LAPACK
+Summary(pl.UTF-8):	Statyczna biblioteka LAPACKE - natywny interfejs C do biblioteki LAPACK
+Group:		Development/Libraries
+Requires:	lapacke-devel = %{version}-%{release}
+
+%description -n lapacke-static
+Static LAPACKE library - native C interface to LAPACK.
+
+%description -n lapacke-static -l pl.UTF-8
+Statyczna biblioteka LAPACKE - natywny interfejs C do biblioteki
+LAPACK.
 
 %prep
 %setup -q -a1
@@ -129,6 +182,26 @@ Biblioteki statyczne BLAS.
 mv -f INSTALL INSTALLSRC
 # copy selected routines; use INT_ETIME versions of second
 cp -f INSTALLSRC/{ilaver,slamch,dlamch,second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
+
+# fill in lapacke files, omitting matgen and xblas-dependent files
+sed -i -e "s,@LAPACKE_FILES@,$(cd lapacke/src ; ls -1 *.c ../utils/*.c | grep -Ev 'lagge|laghe|lagsy|latms|gbrfsx|gbsvxx|gerfsx|gesvxx|herfsx|hesvxx|porfsx|posvxx|syrfsx|sysvxx' |tr '\n' ' ')," lapacke/src/Makefile.am
+
+# bogus
+%{__rm} man/man3/_Users_julie_Desktop_lapack-*.3 \
+	man/man3/__*.3
+# duplicated...
+%{__rm} man/man3/{INSTALL_ilaver,INSTALL_lsame,SRC_xerbla,SRC_xerbla_array}.f.3
+# ...in BLAS and LAPACK sources; keep versions from BLAS
+mv -f man/man3/BLAS_SRC_lsame.f.3 man/man3/lsame.f.3
+mv -f man/man3/BLAS_SRC_xerbla.f.3 man/man3/xerbla.f.3
+mv -f man/man3/BLAS_SRC_xerbla_array.f.3 man/man3/xerbla_array.f.3
+sed -i -e 's,man3/INSTALL_,man3/,' man/man3/LSAME.3
+sed -i -e 's,man3/SRC_,man3/,' man/man3/{ILAVER,XERBLA,XERBLA_ARRAY}.3
+# ...in SRC and INSTALL dirs
+mv -f man/man3/SRC_ilaver.f.3 man/man3/ilaver.f.3
+# [sd]lamchf77.f is not used
+%{__rm} man/man3/{DLAMC1,DLAMC2,DLAMC4,DLAMC5,dlamchf77.f}.3
+%{__rm} man/man3/{SLAMC1,SLAMC2,SLAMC4,SLAMC5,slamchf77.f}.3
 
 %build
 %{__libtoolize}
@@ -146,18 +219,30 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# present both in blas and lapack
-%{__rm} manpages/man/manl/{lsame,xerbla,xerbla_array}.l
-
+# install man pages, distributing them among blas-devel and lapack-devel
 install -d $RPM_BUILD_ROOT%{_mandir}/man3
-for d in manpages/man/manl/*.l manpages/blas/man/manl/*.l ; do
-	install $d $RPM_BUILD_ROOT%{_mandir}/man3/`basename $d .l`.3
-done
-
 echo "%defattr(644,root,root,755)" > blasmans.list
-find manpages/blas/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> blasmans.list
 echo "%defattr(644,root,root,755)" > mans.list
-find manpages/man/manl -name "*.l" -printf "%{_mandir}/man3/%%f\n" | sed 's/\.l/.3*/' >> mans.list
+for f in man/man3/*.3 ; do
+	cp -p "$f" $RPM_BUILD_ROOT%{_mandir}/man3
+	bn=$(basename $f)
+	if echo "$bn" | grep '\.f\.3$' ; then
+		ffn="${bn%.3}"
+	elif grep '\.f\.3$' "$f" ; then
+		ffn=$(sed -e '1s,^\.so man3/\(.*\.f\)\.3,\1,' $f)
+	else
+		echo "Unknown manpage: $f"
+		exit 1
+	fi
+	if [ -f "BLAS/SRC/$ffn" ]; then
+		echo "%{_mandir}/man3/${bn}*" >> blasmans.list
+	elif [ -f "SRC/$ffn" -o -f "INSTALLSRC/$ffn" ]; then
+		echo "%{_mandir}/man3/${bn}*" >> mans.list
+	else
+		echo "Unknown manpage: $f (source file: $ffn)"
+		exit 1
+	fi
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -167,6 +252,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post   -n blas -p /sbin/ldconfig
 %postun -n blas -p /sbin/ldconfig
+
+%post   -n lapacke -p /sbin/ldconfig
+%postun -n lapacke -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -198,3 +286,19 @@ rm -rf $RPM_BUILD_ROOT
 %files -n blas-static
 %defattr(644,root,root,755)
 %{_libdir}/libblas.a
+
+%files -n lapacke
+%defattr(644,root,root,755)
+%doc lapacke/{LICENSE,README}
+%attr(755,root,root) %{_libdir}/liblapacke.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/liblapacke.so.2
+
+%files -n lapacke-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/liblapacke.so
+%{_libdir}/liblapacke.la
+%{_includedir}/lapacke*.h
+
+%files -n lapacke-static
+%defattr(644,root,root,755)
+%{_libdir}/liblapacke.a
