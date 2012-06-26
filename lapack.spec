@@ -5,15 +5,15 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.4.0
-%define	man_ver	3.4.0
+Version:	3.4.1
+%define	man_ver	3.4.1
 Release:	1
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	02d5706ec03ba885fc246e5fa10d8c70
+# Source0-md5:	44c3869c38c8335c2b9c2a8bb276eb55
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
-# Source1-md5:	b9448c036dcfb174215ecbd207168fad
+# Source1-md5:	0a8db99677bc07014aedccc405d290e8
 Patch0:		%{name}-automake_support.patch
 Patch1:		blas-nan.patch
 URL:		http://www.netlib.org/lapack/
@@ -183,11 +183,8 @@ mv -f INSTALL INSTALLSRC
 # copy selected routines; use INT_ETIME versions of second
 cp -f INSTALLSRC/{ilaver,slamch,dlamch,second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
 
-# fill in lapacke files, omitting matgen and xblas-dependent files
-sed -i -e "s,@LAPACKE_FILES@,$(cd lapacke/src ; ls -1 *.c ../utils/*.c | grep -Ev 'lagge|laghe|lagsy|latms|gbrfsx|gbsvxx|gerfsx|gesvxx|herfsx|hesvxx|porfsx|posvxx|syrfsx|sysvxx' |tr '\n' ' ')," lapacke/src/Makefile.am
-
 # bogus
-%{__rm} man/man3/_Users_julie_Desktop_lapack-*.3 \
+%{__rm} man/man3/_Users_julie_Documents_Boulot_lapack-dev_lapack_branches_lapack-*.3 \
 	man/man3/__*.3
 # duplicated...
 %{__rm} man/man3/{INSTALL_ilaver,INSTALL_lsame,SRC_xerbla,SRC_xerbla_array}.f.3
@@ -298,6 +295,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/liblapacke.so
 %{_libdir}/liblapacke.la
 %{_includedir}/lapacke*.h
+%{_pkgconfigdir}/lapacke.pc
 
 %files -n lapacke-static
 %defattr(644,root,root,755)
