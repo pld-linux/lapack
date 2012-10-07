@@ -38,8 +38,8 @@
 +	dgemm.f dsymm.f dsyrk.f dsyr2k.f dtrmm.f dtrsm.f \
 +	zgemm.f zsymm.f zsyrk.f zsyr2k.f ztrmm.f ztrsm.f \
 +	zhemm.f zherk.f zher2k.f
---- lapack-3.4.0.orig/configure.in	1970-01-01 01:00:00.000000000 +0100
-+++ lapack-3.4.0/configure.in	2007-08-06 22:04:22.000000000 +0100
+--- lapack-3.4.2.orig/configure.in	1970-01-01 01:00:00.000000000 +0100
++++ lapack-3.4.2/configure.in	2007-08-06 22:04:22.000000000 +0100
 @@ -0,0 +1,19 @@
 +dnl Process this file with autoconf to produce a configure script.
 +
@@ -48,8 +48,8 @@
 +dnl klakier@pld.org.pl
 +
 +AC_INIT
-+AM_INIT_AUTOMAKE(lapack, 3.4.1)
-+LIBVERSION="7:1:5"
++AM_INIT_AUTOMAKE(lapack, 3.4.2)
++LIBVERSION="7:2:5"
 +AC_SUBST([LIBVERSION])
 +AM_CONFIG_HEADER(config.h)
 +
@@ -400,7 +400,7 @@ diff -Nur lapack-3.1.1.orig/Makefile.am lapack-3.1.1/Makefile.am
 +pkgconfig_DATA=lapacke.pc
 --- lapack-3.4.0.orig/lapacke/src/Makefile.am	1970-01-01 01:00:00.000000000 +0100
 +++ lapack-3.4.0/lapacke/src/Makefile.am	2007-08-06 22:06:57.000000000 +0100
-@@ -0,0 +1,2049 @@
+@@ -0,0 +1,2050 @@
 +LIBTOOL = $(SHELL) $(top_builddir)/libtool
 +lib_LTLIBRARIES = liblapacke.la
 +liblapacke_la_CPPFLAGS = -I$(top_srcdir)/lapacke/include
@@ -2365,7 +2365,8 @@ diff -Nur lapack-3.1.1.orig/Makefile.am lapack-3.1.1/Makefile.am
 +	lapacke_zsyr.c \
 +	lapacke_csyr.c \
 +	lapacke_zsyr_work.c \
-+	lapacke_csyr_work.c
++	lapacke_csyr_work.c \
++	lapacke_ilaver.c
 +
 +LAPACKE_XSRCS = \
 +	lapacke_cgbrfsx.c       lapacke_cporfsx.c       lapacke_dgerfsx.c       lapacke_sgbrfsx.c       lapacke_ssyrfsx.c       lapacke_zherfsx.c \
