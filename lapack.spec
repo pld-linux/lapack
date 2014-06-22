@@ -5,24 +5,28 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.4.2
-%define	man_ver	3.4.2
+Version:	3.5.0
+%define	man_ver	3.5.0
 Release:	1
 License:	freely distributable
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	61bf1a8a4469d4bdb7604f5897179478
+# Source0-md5:	b1d3e3e425b2e44a06760ff173104bdf
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
-# Source1-md5:	5e6b576f13115f653ecd4526bfdbb78f
+# Source1-md5:	275687b7e06498798e88b1ca8481b3e2
 Patch0:		%{name}-automake_support.patch
 Patch1:		blas-nan.patch
 URL:		http://www.netlib.org/lapack/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	gcc-fortran
 BuildRequires:	libtool >= 2:1.5
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# missing __stack_chk_fail symbol when only Fortran sources used
+%undefine	_fortify_cflags
+%undefine	_ssp_cflags
 
 %description
 LAPACK (Linear Algebra PACKage) is a standard library for numerical
@@ -184,7 +188,7 @@ mv -f INSTALL INSTALLSRC
 cp -f INSTALLSRC/{ilaver,slamch,dlamch,second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
 
 # bogus
-%{__rm} man/man3/_Users_julie_Documents_Boulot_lapack-dev_lapack_branches_lapack-*.3 \
+%{__rm} man/man3/_Users_julie_Documents_Boulot_lapack-dev_lapack_trunk_*.3 \
 	man/man3/__*.3
 # duplicated...
 %{__rm} man/man3/{INSTALL_ilaver,INSTALL_lsame,SRC_xerbla,SRC_xerbla_array}.f.3
@@ -192,13 +196,13 @@ cp -f INSTALLSRC/{ilaver,slamch,dlamch,second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
 mv -f man/man3/BLAS_SRC_lsame.f.3 man/man3/lsame.f.3
 mv -f man/man3/BLAS_SRC_xerbla.f.3 man/man3/xerbla.f.3
 mv -f man/man3/BLAS_SRC_xerbla_array.f.3 man/man3/xerbla_array.f.3
-sed -i -e 's,man3/INSTALL_,man3/,' man/man3/LSAME.3
-sed -i -e 's,man3/SRC_,man3/,' man/man3/{ILAVER,XERBLA,XERBLA_ARRAY}.3
+sed -i -e 's,man3/INSTALL_,man3/,' man/man3/lsame.3
+sed -i -e 's,man3/SRC_,man3/,' man/man3/{ilaver,xerbla,xerbla_array}.3
 # ...in SRC and INSTALL dirs
 mv -f man/man3/SRC_ilaver.f.3 man/man3/ilaver.f.3
 # [sd]lamchf77.f is not used
-%{__rm} man/man3/{DLAMC1,DLAMC2,DLAMC4,DLAMC5,dlamchf77.f}.3
-%{__rm} man/man3/{SLAMC1,SLAMC2,SLAMC4,SLAMC5,slamchf77.f}.3
+%{__rm} man/man3/{dlamc1,dlamc2,dlamc4,dlamc5,dlamchf77.f}.3
+%{__rm} man/man3/{slamc1,slamc2,slamc4,slamc5,slamchf77.f}.3
 
 %build
 %{__libtoolize}
