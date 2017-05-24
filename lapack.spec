@@ -5,15 +5,15 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.5.0
-%define	man_ver	3.5.0
-Release:	2
-License:	freely distributable
+Version:	3.7.0
+%define	man_ver	3.7.0
+Release:	1
+License:	BSD-like
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	b1d3e3e425b2e44a06760ff173104bdf
+# Source0-md5:	697bb8d67c7d336a0f339cc9dd0fa72f
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
-# Source1-md5:	275687b7e06498798e88b1ca8481b3e2
+# Source1-md5:	5d538ef8b8240bf7e9895feae45428dc
 Patch0:		%{name}-automake_support.patch
 Patch1:		blas-nan.patch
 URL:		http://www.netlib.org/lapack/
@@ -183,26 +183,23 @@ LAPACK.
 %patch0 -p1
 %patch1 -p1
 # directory INSTALL conflicts with file INSTALL needed by automake
-mv -f INSTALL INSTALLSRC
+%{__mv} INSTALL INSTALLSRC
 # copy selected routines; use INT_ETIME versions of second
 cp -f INSTALLSRC/{ilaver,slamch,dlamch,second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
 
 # bogus
-%{__rm} man/man3/_Users_julie_Documents_Boulot_lapack-dev_lapack_trunk_*.3 \
-	man/man3/__*.3
+%{__rm} man/man3/{_Users_julie_Downloads_lapack-*,groups-usr.dox}.3
 # duplicated...
-%{__rm} man/man3/{INSTALL_ilaver,INSTALL_lsame,SRC_xerbla,SRC_xerbla_array}.f.3
+%{__rm} man/man3/{SRC_xerbla,SRC_xerbla_array}.f.3
 # ...in BLAS and LAPACK sources; keep versions from BLAS
-mv -f man/man3/BLAS_SRC_lsame.f.3 man/man3/lsame.f.3
-mv -f man/man3/BLAS_SRC_xerbla.f.3 man/man3/xerbla.f.3
-mv -f man/man3/BLAS_SRC_xerbla_array.f.3 man/man3/xerbla_array.f.3
-sed -i -e 's,man3/INSTALL_,man3/,' man/man3/lsame.3
-sed -i -e 's,man3/SRC_,man3/,' man/man3/{ilaver,xerbla,xerbla_array}.3
-# ...in SRC and INSTALL dirs
-mv -f man/man3/SRC_ilaver.f.3 man/man3/ilaver.f.3
-# [sd]lamchf77.f is not used
-%{__rm} man/man3/{dlamc1,dlamc2,dlamc4,dlamc5,dlamchf77.f}.3
-%{__rm} man/man3/{slamc1,slamc2,slamc4,slamc5,slamchf77.f}.3
+%{__mv} man/man3/BLAS_SRC_xerbla.f.3 man/man3/xerbla.f.3
+%{__mv} man/man3/BLAS_SRC_xerbla_array.f.3 man/man3/xerbla_array.f.3
+# not used variants of some procedures
+%{__rm} man/man3/{VARIANTS_*,sceil.f}.3
+# directory only pages with no real information and non-man references to others
+%{__rm} man/man3/{GB,GE,GT,HE,OTHERcomputational,OTHEReigen,OTHERsolve,PO,PT,SY,aux_{eig,lin,matgen},{auxiliary,computational}{GB,GE,GT,HE,PO,PT,SY},blas,blastesting,{complex,complex16}{POauxiliary,SYeigen,_blas_testing,_lin,_matgen},{double,real}{{GT,PO,PT}auxiliary,_matgen},{double,single}{_blas_testing,_lin},eig,eigen{GE,HE,SY},lapack,level{1,2,3},lin,matgen,singGE,solve{GB,GE,GT,HE,PO,PT,SY},testing}.3
+# documentation for examples
+%{__rm} man/man3/{LDA,LDB,N,NRHS,example_*,lapacke_example_aux.*,main,print_*}.3
 
 %build
 %{__libtoolize}
@@ -224,21 +221,31 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/man3
 echo "%defattr(644,root,root,755)" > blasmans.list
 echo "%defattr(644,root,root,755)" > mans.list
+echo "%defattr(644,root,root,755)" > lapackemans.list
+BLAS_ADDITIONAL='aux_blas|(complex|complex16|double|single)_blas_level[123]'
+LAPACK_ADDITIONAL='OTHERauxiliary|(aux|complex|complex16|double|real|variants)(GB|GE|GT|HE|OTHER|PO|PT|SY)(auxiliary|computational|eigen|sing|solve)|(complex|complex16|double|single)_eig|variants(GE|OTHER|PO)computational'
+MANS_ADDITIONAL="$BLAS_ADDITIONAL|$LAPACK_ADDITIONAL"
 for f in man/man3/*.3 ; do
 	cp -p "$f" $RPM_BUILD_ROOT%{_mandir}/man3
 	bn=$(basename $f)
-	if echo "$bn" | grep '\.f\.3$' ; then
+	if echo "$bn" | grep '\.[cfh]\.3$' ; then
 		ffn="${bn%.3}"
-	elif grep '\.f\.3$' "$f" ; then
-		ffn=$(sed -e '1s,^\.so man3/\(.*\.f\)\.3,\1,' $f)
+	elif echo "$bn" | grep -E "^($MANS_ADDITIONAL)\.3\$" ; then
+		ffn="${bn%.3}"
+	elif grep '^\.so man3/.*\.[cfh]\.3$' "$f" ; then
+		ffn=$(sed -e '1s,^\.so man3/\(.*\.[cfh]\)\.3,\1,' $f)
+	elif grep -E "^\.so man3/($MANS_ADDITIONAL)\.3" "$f"; then
+		ffn=$(sed -e '1s,^\.so man3/\([^.]*\)\.3,\1,' $f)
 	else
 		echo "Unknown manpage: $f"
 		exit 1
 	fi
-	if [ -f "BLAS/SRC/$ffn" ]; then
+	if [ -f "BLAS/SRC/$ffn" ] || echo "$ffn" | grep -E "^($BLAS_ADDITIONAL)\$" ; then
 		echo "%{_mandir}/man3/${bn}*" >> blasmans.list
-	elif [ -f "SRC/$ffn" -o -f "INSTALLSRC/$ffn" ]; then
+	elif [ -f "SRC/$ffn" -o -f "INSTALLSRC/$ffn" ] || echo "$ffn" | grep -E "^($LAPACK_ADDITIONAL)\$"; then
 		echo "%{_mandir}/man3/${bn}*" >> mans.list
+	elif [ -f "LAPACKE/include/$ffn" -o -f "LAPACKE/src/$ffn" -o -f "LAPACKE/utils/$ffn" ]; then
+		echo "%{_mandir}/man3/${bn}*" >> lapackemans.list
 	else
 		echo "Unknown manpage: $f (source file: $ffn)"
 		exit 1
@@ -259,9 +266,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README
+%doc LICENSE README
 %attr(755,root,root) %{_libdir}/liblapack.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/liblapack.so.2
+%attr(755,root,root) %ghost %{_libdir}/liblapack.so.3
 
 %files devel -f mans.list
 %defattr(644,root,root,755)
@@ -276,7 +283,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n blas
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libblas.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libblas.so.2
+%attr(755,root,root) %ghost %{_libdir}/libblas.so.3
 
 %files -n blas-devel -f blasmans.list
 %defattr(644,root,root,755)
@@ -288,11 +295,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libblas.a
 
-%files -n lapacke
+%files -n lapacke -f lapackemans.list
 %defattr(644,root,root,755)
-%doc lapacke/{LICENSE,README}
+%doc LAPACKE/{LICENSE,README}
 %attr(755,root,root) %{_libdir}/liblapacke.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/liblapacke.so.2
+%attr(755,root,root) %ghost %{_libdir}/liblapacke.so.3
 
 %files -n lapacke-devel
 %defattr(644,root,root,755)
