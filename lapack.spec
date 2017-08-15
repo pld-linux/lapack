@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.7.0
 %define	man_ver	3.7.0
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Libraries
 Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
