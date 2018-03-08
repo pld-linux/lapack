@@ -1,26 +1,26 @@
-# NOTE: when updating automake_support patch, look both on included
-#  cmake suite and plain Makefiles - one of them is mostly outdated
-#  (as of 3.4.0, cmake misses some files added in 3.4; also it
-#   doesn't care about setting soname, so currently isn't worth using)
+#
+# Conditional build:
+%bcond_without	static_libs	# static libraries
+%bcond_without	tests		# unit tests
+%bcond_with	xblas		# use xblas
+
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.7.0
-%define	man_ver	3.7.0
-Release:	2
+Version:	3.8.0
+%define	man_ver	3.8.0
+Release:	1
 License:	BSD-like
 Group:		Libraries
-Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tgz
-# Source0-md5:	697bb8d67c7d336a0f339cc9dd0fa72f
+Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tar.gz
+# Source0-md5:	96591affdbf58c450d45c1daa540dbd2
 Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
-# Source1-md5:	5d538ef8b8240bf7e9895feae45428dc
-Patch0:		%{name}-automake_support.patch
-Patch1:		blas-nan.patch
+# Source1-md5:	bbf94b49b43e2195de42c1d76b620de1
+Patch0:		blas-nan.patch
 URL:		http://www.netlib.org/lapack/
-BuildRequires:	autoconf >= 2.50
-BuildRequires:	automake
+BuildRequires:	cmake >= 2.8.12
 BuildRequires:	gcc-fortran
-BuildRequires:	libtool >= 2:1.5
+%{?with_xblas:BuildRequires:	xblas-devel}
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -83,6 +83,7 @@ Biblioteki statyczne LAPACK.
 Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux
 Summary(pl.UTF-8):	Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
 Group:		Libraries
+URL:		http://www.netlib.org/blas/
 Obsoletes:	lapack-blas
 
 %description -n blas
@@ -108,6 +109,7 @@ pod daną architekturę.
 Summary:	BLAS development files
 Summary(pl.UTF-8):	Pliki programistyczne BLAS
 Group:		Development/Libraries
+URL:		http://www.netlib.org/blas/
 Requires:	blas = %{version}-%{release}
 Obsoletes:	blas-man
 
@@ -121,6 +123,7 @@ Pliki programistyczne BLAS.
 Summary:	Static BLAS library
 Summary(pl.UTF-8):	Biblioteka statyczna BLAS
 Group:		Development/Libraries
+URL:		http://www.netlib.org/blas/
 Requires:	blas-devel = %{version}-%{release}
 
 %description -n blas-static
@@ -129,10 +132,52 @@ Static BLAS library.
 %description -n blas-static -l pl.UTF-8
 Biblioteka statyczna BLAS.
 
+%package -n cblas
+Summary:	C Standard Interface to BLAS Basic Linear Algebra Subprograms
+Summary(pl.UTF-8):	Interfejs C do procedur BLAS (Basic Linear Algebra Subprograms)
+Group:		Libraries
+URL:		http://www.netlib.org/blas/#_cblas
+Requires:	blas = %{version}-%{release}
+
+%description -n cblas
+C Standard Interface to BLAS Basic Linear Algebra Subprograms.
+
+%description -n cblas -l pl.UTF-8
+Interfejs C do procedur BLAS (Basic Linear Algebra Subprograms -
+podstawowych procedur algebry liniowej).
+
+%package -n cblas-devel
+Summary:	Header files of C Standard Interface to BLAS
+Summary(pl.UTF-8):	Pliki nagłówkowe interfejsu C do BLAS
+Group:		Libraries
+URL:		http://www.netlib.org/blas/#_cblas
+Requires:	blas-devel = %{version}-%{release}
+Requires:	cblas = %{version}-%{release}
+
+%description -n cblas-devel
+Header files of C Standard Interface to BLAS.
+
+%description -n cblas-devel -l pl.UTF-8
+Pliki nagłówkowe interfejsu C do BLAS.
+
+%package -n cblas-static
+Summary:	Static CBLAS library
+Summary(pl.UTF-8):	Statyczna biblioteka CBLAS
+Group:		Libraries
+URL:		http://www.netlib.org/blas/#_cblas
+Requires:	cblas-devel = %{version}-%{release}
+
+%description -n cblas-static
+Static CBLAS library.
+
+%description -n cblas-static -l pl.UTF-8
+Statyczna biblioteka CBLAS.
+
 %package -n lapacke
 Summary:	LAPACKE - native C interface to LAPACK library routines
 Summary(pl.UTF-8):	LAPACKE - natywny interfejs C do procedur biblioteki LAPACK
 Group:		Libraries
+URL:		http://www.netlib.org/lapack/lapacke.html
 Requires:	lapack = %{version}-%{release}
 
 %description -n lapacke
@@ -155,6 +200,7 @@ LAPACK, ułatwiając jej użycie programistom C.
 Summary:	Header files for LAPACKE - native C interface to LAPACK
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki LAPACKE - natywnego interfejsu C do biblioteki LAPACK
 Group:		Development/Libraries
+URL:		http://www.netlib.org/lapack/lapacke.html
 Requires:	lapack-devel = %{version}-%{release}
 Requires:	lapacke = %{version}-%{release}
 
@@ -169,6 +215,7 @@ biblioteki LAPACK.
 Summary:	Static LAPACKE library - native C interface to LAPACK
 Summary(pl.UTF-8):	Statyczna biblioteka LAPACKE - natywny interfejs C do biblioteki LAPACK
 Group:		Development/Libraries
+URL:		http://www.netlib.org/lapack/lapacke.html
 Requires:	lapacke-devel = %{version}-%{release}
 
 %description -n lapacke-static
@@ -181,40 +228,62 @@ LAPACK.
 %prep
 %setup -q -a1
 %patch0 -p1
-%patch1 -p1
-# directory INSTALL conflicts with file INSTALL needed by automake
-%{__mv} INSTALL INSTALLSRC
 # copy selected routines; use INT_ETIME versions of second
-cp -f INSTALLSRC/{ilaver,slamch,dlamch,second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
+# FIXME? CMakeLists doesn't handle second
+#cp -f INSTALLSRC/{second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
 
 # bogus
-%{__rm} man/man3/{_Users_julie_Downloads_lapack-*,groups-usr.dox}.3
+%{__rm} man/man3/_Users_julie_Documents_Boulot_GIT_lapack-release_*.3
 # duplicated...
 %{__rm} man/man3/{SRC_xerbla,SRC_xerbla_array}.f.3
 # ...in BLAS and LAPACK sources; keep versions from BLAS
 %{__mv} man/man3/BLAS_SRC_xerbla.f.3 man/man3/xerbla.f.3
 %{__mv} man/man3/BLAS_SRC_xerbla_array.f.3 man/man3/xerbla_array.f.3
+%{__sed} -i -e 's/BLAS_SRC_//' man/man3/{xerbla,xerbla_array}.3
+# in base and variants; adjust .so links to use base
+%{__sed} -i -e 's/VARIANTS_qr_LL_//' man/man3/zgeqrf.3
+%{__sed} -i -e 's/VARIANTS_lu_CR_//' man/man3/zgetrf.3
+%{__sed} -i -e 's/VARIANTS_cholesky_RL_//' man/man3/zpotrf.3
 # not used variants of some procedures
-%{__rm} man/man3/{VARIANTS_*,sceil.f}.3
-# directory only pages with no real information and non-man references to others
-%{__rm} man/man3/{GB,GE,GT,HE,OTHERcomputational,OTHEReigen,OTHERsolve,PO,PT,SY,aux_{eig,lin,matgen},{auxiliary,computational}{GB,GE,GT,HE,PO,PT,SY},blas,blastesting,{complex,complex16}{POauxiliary,SYeigen,_blas_testing,_lin,_matgen},{double,real}{{GT,PO,PT}auxiliary,_matgen},{double,single}{_blas_testing,_lin},eig,eigen{GE,HE,SY},lapack,level{1,2,3},lin,matgen,singGE,solve{GB,GE,GT,HE,PO,PT,SY},testing}.3
+%{__rm} man/man3/{VARIANTS_*,sceil,sceil.f}.3
 # documentation for examples
 %{__rm} man/man3/{LDA,LDB,N,NRHS,example_*,lapacke_example_aux.*,main,print_*}.3
 
 %build
-%{__libtoolize}
-%{__aclocal}
-%{__autoheader}
-%{__autoconf}
-%{__automake}
-%configure
-
+%if %{with static_libs}
+install -d build-static
+cd build-static
+%cmake .. \
+	-DBUILD_DEPRECATED=ON \
+	-DBUILD_SHARED_LIBS=OFF \
+	-DCBLAS=ON \
+	-DLAPACKE_WITH_TMG=ON \
+	%{?with_xblas:-DUSE_XBLAS=ON}
 %{__make}
+cd ..
+%endif
+
+install -d build
+cd build
+%cmake .. \
+	-DBUILD_DEPRECATED=ON \
+	%{?with_tests:-DBUILD_TESTING=ON} \
+	-DCBLAS=ON \
+	-DLAPACKE_WITH_TMG=ON \
+	%{?with_xblas:-DUSE_XBLAS=ON}
+%{__make}
+
+%{?with_tests:ctest}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
+%if %{with static_libs}
+%{__make} -C build-static install \
+	DESTDIR=$RPM_BUILD_ROOT
+%endif
+
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 # install man pages, distributing them among blas-devel and lapack-devel
@@ -266,15 +335,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICENSE README
+%doc LICENSE README.md
 %attr(755,root,root) %{_libdir}/liblapack.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/liblapack.so.3
 
 %files devel -f mans.list
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/liblapack.so
-%{_libdir}/liblapack.la
 %{_pkgconfigdir}/lapack.pc
+%{_libdir}/cmake/lapack-%{version}
 
 %files static
 %defattr(644,root,root,755)
@@ -288,26 +357,43 @@ rm -rf $RPM_BUILD_ROOT
 %files -n blas-devel -f blasmans.list
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libblas.so
-%{_libdir}/libblas.la
 %{_pkgconfigdir}/blas.pc
 
 %files -n blas-static
 %defattr(644,root,root,755)
 %{_libdir}/libblas.a
 
+%files -n cblas
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcblas.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libcblas.so.3
+
+%files -n cblas-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcblas.so
+%{_includedir}/cblas*.h
+%{_pkgconfigdir}/cblas.pc
+%{_libdir}/cmake/cblas-%{version}
+
+%files -n cblas-static
+%defattr(644,root,root,755)
+%{_libdir}/libcblas.a
+
 %files -n lapacke -f lapackemans.list
 %defattr(644,root,root,755)
 %doc LAPACKE/{LICENSE,README}
 %attr(755,root,root) %{_libdir}/liblapacke.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/liblapacke.so.3
+%attr(755,root,root) %{_libdir}/libtmglib.so
 
 %files -n lapacke-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/liblapacke.so
-%{_libdir}/liblapacke.la
 %{_includedir}/lapacke*.h
 %{_pkgconfigdir}/lapacke.pc
+%{_libdir}/cmake/lapacke-%{version}
 
 %files -n lapacke-static
 %defattr(644,root,root,755)
 %{_libdir}/liblapacke.a
+%{_libdir}/libtmglib.a
