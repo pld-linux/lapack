@@ -7,16 +7,16 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.8.0
-%define	man_ver	3.8.0
-Release:	2
+Version:	3.9.0
+Release:	1
 License:	BSD-like
 Group:		Libraries
-Source0:	http://www.netlib.org/lapack/%{name}-%{version}.tar.gz
-# Source0-md5:	96591affdbf58c450d45c1daa540dbd2
-Source1:	http://www.netlib.org/lapack/manpages-%{man_ver}.tgz
+Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}.tar.gz
+# Source0-md5:	0b251e2a8d5f949f99b50dd5e2200ee2
+Source1:	http://www.netlib.org/lapack/manpages.tgz
 # Source1-md5:	bbf94b49b43e2195de42c1d76b620de1
 Patch0:		blas-nan.patch
+Patch1:		missing_symbols_fix.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	gcc-fortran
@@ -228,6 +228,7 @@ LAPACK.
 %prep
 %setup -q -a1
 %patch0 -p1
+%patch1 -p1
 # copy selected routines; use INT_ETIME versions of second
 # FIXME? CMakeLists doesn't handle second
 #cp -f INSTALLSRC/{second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
@@ -342,6 +343,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel -f mans.list
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/liblapack.so
+%{_includedir}/lapack.h
 %{_pkgconfigdir}/lapack.pc
 %{_libdir}/cmake/lapack-%{version}
 
