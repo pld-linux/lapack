@@ -8,7 +8,7 @@ Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.9.0
-Release:	2
+Release:	3
 License:	BSD-like
 Group:		Libraries
 Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}.tar.gz
@@ -350,7 +350,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/lapack.pc
 %{_libdir}/cmake/lapack-%{version}
 
-%if %{with static_liba}
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/liblapack.a
@@ -366,7 +366,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libblas.so
 %{_pkgconfigdir}/blas.pc
 
-%if %{with static_liba}
+%if %{with static_libs}
 %files -n blas-static
 %defattr(644,root,root,755)
 %{_libdir}/libblas.a
@@ -384,7 +384,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/cblas.pc
 %{_libdir}/cmake/cblas-%{version}
 
-%if %{with static_liba}
+%if %{with static_libs}
 %files -n cblas-static
 %defattr(644,root,root,755)
 %{_libdir}/libcblas.a
@@ -404,7 +404,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/lapacke.pc
 %{_libdir}/cmake/lapacke-%{version}
 
-%if %{with static_liba}
+%if %{with static_libs}
 %files -n lapacke-static
 %defattr(644,root,root,755)
 %{_libdir}/liblapacke.a
