@@ -8,7 +8,7 @@ Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
 Version:	3.9.0
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Libraries
 Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}.tar.gz
@@ -330,6 +330,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post   -n blas -p /sbin/ldconfig
 %postun -n blas -p /sbin/ldconfig
+
+%post   -n cblas -p /sbin/ldconfig
+%postun -n cblas -p /sbin/ldconfig
 
 %post   -n lapacke -p /sbin/ldconfig
 %postun -n lapacke -p /sbin/ldconfig
