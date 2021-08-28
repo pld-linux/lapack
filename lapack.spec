@@ -7,16 +7,16 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.9.0
-Release:	3
+Version:	3.10.0
+Release:	1
 License:	BSD-like
 Group:		Libraries
-Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}.tar.gz
-# Source0-md5:	0b251e2a8d5f949f99b50dd5e2200ee2
+#Source0Download: https://github.com/Reference-LAPACK/lapack/releases
+Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	d70fc27a8bdebe00481c97c728184f09
 Source1:	http://www.netlib.org/lapack/manpages.tgz
-# Source1-md5:	bbf94b49b43e2195de42c1d76b620de1
+# Source1-md5:	6a585cd9238f13b48388e1466dac0df5
 Patch0:		blas-nan.patch
-Patch1:		missing_symbols_fix.patch
 URL:		http://www.netlib.org/lapack/
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	gcc-fortran
@@ -228,13 +228,13 @@ LAPACK.
 %prep
 %setup -q -a1
 %patch0 -p1
-%patch1 -p1
 # copy selected routines; use INT_ETIME versions of second
 # FIXME? CMakeLists doesn't handle second
 #cp -f INSTALLSRC/{second_INT_ETIME,dsecnd_INT_ETIME}.f SRC
 
 # bogus
-%{__rm} man/man3/_Users_julie_Documents_Boulot_GIT_lapack-release_*.3
+%{__rm} man/man3/_Users_julielangou_Documents_GitHub_lapack_*.3
+%{__rm} man/man3/groups-usr.dox.3
 # duplicated...
 %{__rm} man/man3/{SRC_xerbla,SRC_xerbla_array}.f.3
 # ...in BLAS and LAPACK sources; keep versions from BLAS
@@ -249,6 +249,11 @@ LAPACK.
 %{__rm} man/man3/{VARIANTS_*,sceil,sceil.f}.3
 # documentation for examples
 %{__rm} man/man3/{LDA,LDB,N,NRHS,example_*,lapacke_example_aux.*,main,print_*}.3
+# too common names
+%{__mv} man/man3/{testing,lapacktesting}.3
+%{__mv} man/man3/{level1,blaslevel1}.3
+%{__mv} man/man3/{level2,blaslevel2}.3
+%{__mv} man/man3/{level3,blaslevel3}.3
 
 %build
 %if %{with static_libs}
@@ -292,18 +297,18 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man3
 echo "%defattr(644,root,root,755)" > blasmans.list
 echo "%defattr(644,root,root,755)" > mans.list
 echo "%defattr(644,root,root,755)" > lapackemans.list
-BLAS_ADDITIONAL='aux_blas|(complex|complex16|double|single)_blas_level[123]'
-LAPACK_ADDITIONAL='OTHERauxiliary|(aux|complex|complex16|double|real|variants)(GB|GE|GT|HE|OTHER|PO|PT|SY)(auxiliary|computational|eigen|sing|solve)|(complex|complex16|double|single)_eig|variants(GE|OTHER|PO)computational'
+BLAS_ADDITIONAL='blas|blaslevel[123]|blastesting|aux_blas|(complex|complex16|double|single)_blas_(level[123]|testing)'
+LAPACK_ADDITIONAL='lapack|lapacktesting|OTHERauxiliary|(aux|auxiliary|complex|complex16|computational|double|eigen|real|sing|solve|variants)?(GB|GE|GT|HE|OTHER|PO|PT|SY)(auxiliary|computational|eigen|sing|solve)?|((aux|complex|complex16|double|real|single)_)?(eig|lin|matgen)|variants(GE|OTHER|PO)computational'
 MANS_ADDITIONAL="$BLAS_ADDITIONAL|$LAPACK_ADDITIONAL"
 for f in man/man3/*.3 ; do
 	cp -p "$f" $RPM_BUILD_ROOT%{_mandir}/man3
 	bn=$(basename $f)
-	if echo "$bn" | grep '\.[cfh]\.3$' ; then
+	if echo "$bn" | grep '\.[Fcfh]\.3$' ; then
 		ffn="${bn%.3}"
 	elif echo "$bn" | grep -E "^($MANS_ADDITIONAL)\.3\$" ; then
 		ffn="${bn%.3}"
-	elif grep '^\.so man3/.*\.[cfh]\.3$' "$f" ; then
-		ffn=$(sed -e '1s,^\.so man3/\(.*\.[cfh]\)\.3,\1,' $f)
+	elif grep '^\.so man3/.*\.[Fcfh]\.3$' "$f" ; then
+		ffn=$(sed -e '1s,^\.so man3/\(.*\.[Fcfh]\)\.3,\1,' $f)
 	elif grep -E "^\.so man3/($MANS_ADDITIONAL)\.3" "$f"; then
 		ffn=$(sed -e '1s,^\.so man3/\([^.]*\)\.3,\1,' $f)
 	else
@@ -395,11 +400,13 @@ rm -rf $RPM_BUILD_ROOT
 %doc LAPACKE/{LICENSE,README}
 %attr(755,root,root) %{_libdir}/liblapacke.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/liblapacke.so.3
-%attr(755,root,root) %{_libdir}/libtmglib.so
+%attr(755,root,root) %{_libdir}/libtmglib.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libtmglib.so.3
 
 %files -n lapacke-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/liblapacke.so
+%attr(755,root,root) %{_libdir}/libtmglib.so
 %{_includedir}/lapacke*.h
 %{_pkgconfigdir}/lapacke.pc
 %{_libdir}/cmake/lapacke-%{version}
