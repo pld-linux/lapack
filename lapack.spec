@@ -7,17 +7,17 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.10.0
+Version:	3.10.1
 Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/Reference-LAPACK/lapack/releases
 Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	d70fc27a8bdebe00481c97c728184f09
-Source1:	http://www.netlib.org/lapack/manpages.tgz
-# Source1-md5:	6a585cd9238f13b48388e1466dac0df5
+# Source0-md5:	722407217a080a0012ae3d6913fb8008
+Source1:	https://netlib.org/lapack/manpages.tgz
+# Source1-md5:	104899b545cdb6e502afd66aeb5fe0f0
 Patch0:		blas-nan.patch
-URL:		http://www.netlib.org/lapack/
+URL:		https://netlib.org/lapack/
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	gcc-fortran
 %{?with_xblas:BuildRequires:	xblas-devel}
@@ -59,7 +59,7 @@ Summary(pl.UTF-8):	Pliki programistyczne LAPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	blas-devel = %{version}-%{release}
-Obsoletes:	lapack-man
+Obsoletes:	lapack-man < 3.0-3
 
 %description devel
 LAPACK development files.
@@ -83,8 +83,8 @@ Biblioteki statyczne LAPACK.
 Summary:	The BLAS (Basic Linear Algebra Subprograms) library for Linux
 Summary(pl.UTF-8):	Biblioteka BLAS (Basic Linear Algebra Subprograms) dla Linuksa
 Group:		Libraries
-URL:		http://www.netlib.org/blas/
-Obsoletes:	lapack-blas
+URL:		https://netlib.org/blas/
+Obsoletes:	lapack-blas < 3.1
 
 %description -n blas
 BLAS (Basic Linear Algebra Subprograms) is a standard library for
@@ -111,7 +111,7 @@ Summary(pl.UTF-8):	Pliki programistyczne BLAS
 Group:		Development/Libraries
 URL:		http://www.netlib.org/blas/
 Requires:	blas = %{version}-%{release}
-Obsoletes:	blas-man
+Obsoletes:	blas-man < 3.0-3
 
 %description -n blas-devel
 BLAS development files.
