@@ -7,18 +7,18 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.10.1
+Version:	3.11.0
 Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/Reference-LAPACK/lapack/releases
 Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	722407217a080a0012ae3d6913fb8008
+# Source0-md5:	595b064fd448b161cd711fe346f498a7
 Source1:	https://netlib.org/lapack/manpages.tgz
-# Source1-md5:	104899b545cdb6e502afd66aeb5fe0f0
+# Source1-md5:	b13491eb1bcb381918a5b86437c4b029
 Patch0:		blas-nan.patch
 URL:		https://netlib.org/lapack/
-BuildRequires:	cmake >= 2.8.12
+BuildRequires:	cmake >= 3.2
 BuildRequires:	gcc-fortran
 %{?with_xblas:BuildRequires:	xblas-devel}
 Requires:	blas = %{version}-%{release}
