@@ -19,7 +19,8 @@ Source1:	https://netlib.org/lapack/manpages.tgz
 Patch0:		blas-nan.patch
 URL:		https://netlib.org/lapack/
 BuildRequires:	cmake >= 3.2
-BuildRequires:	gcc-fortran
+# fails a few tests when compiled with gfortran 10.x
+BuildRequires:	gcc-fortran >= 6:11
 %{?with_xblas:BuildRequires:	xblas-devel}
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
