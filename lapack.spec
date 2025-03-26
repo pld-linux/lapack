@@ -7,21 +7,22 @@
 Summary:	The LAPACK libraries for numerical linear algebra
 Summary(pl.UTF-8):	Biblioteki numeryczne LAPACK do algebry liniowej
 Name:		lapack
-Version:	3.12.0
+Version:	3.12.1
 Release:	1
 License:	BSD-like
 Group:		Libraries
 #Source0Download: https://github.com/Reference-LAPACK/lapack/releases
 Source0:	https://github.com/Reference-LAPACK/lapack/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	c1b38bef123584d86a1bd8000784a7b2
+# Source0-md5:	2f069617e16b42f5eddcfee85768f204
 Source1:	https://netlib.org/lapack/manpages.tgz
-# Source1-md5:	206d049b00bbdb9c7d5bae810df00802
+# Source1-md5:	798a321dfee091d8309e7e2c886a09dd
 Patch0:		blas-nan.patch
 URL:		https://netlib.org/lapack/
-BuildRequires:	cmake >= 3.2
+BuildRequires:	cmake >= 3.13
 # fails a few tests when compiled with gfortran 10.x
 BuildRequires:	gcc-fortran >= 6:11
 %{?with_xblas:BuildRequires:	xblas-devel}
+BuildRequires:	rpmbuild(macros) >= 2.046
 Requires:	blas = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -228,12 +229,10 @@ LAPACK.
 
 %prep
 %setup -q -a1
-%patch0 -p1
+%patch -P0 -p1
 
-# OSX junk
-%{__rm} man/man3/._*
 # bogus
-%{__rm} man/man3/_Users_mgates_Documents_tmp_lapack_*.3
+%{__rm} man/man3/_Users_*.3
 %{__rm} man/man3/groups-usr.dox.3
 # documentation for examples
 %{__rm} man/man3/{CBLAS_API64,F77_INT,INVALID,cblas_example*,main}.3
@@ -245,30 +244,31 @@ LAPACK.
 %{__rm} man/man3/{aux_top,bdsvd_driver,blas2_banded,blas2_full,blas2_packed,blast_aux,gbsv_{comp,driver},gelq_comp[123],geqr_comp[1234],gesv_{comp,driver},gesvd_{aux,driver},gtsv_{comp,driver},hbev_{comp,driver,driver2},hbgv_driver,heev_{comp,driver,driver2},hegv_driver,hesv_{aa_driver,comp_aasen,comp_aasen2,comp_v[123],driver},hpev_{comp,driver},hpgv_driver,hpsv_{comp,driver},laed_comp2,lamc[1245],laqr_group,laqz_group,lasd_comp2,pbsv_{comp,driver},pfsv{,_comp,_driver},posv_{comp,driver},ppsv_{comp,driver},ptsv_{comp,driver},rot_comp,stev_driver,tbsv_comp,tfsv_comp,tpsv_comp,trsv_comp}.3
 
 %build
+FFLAGS="%{rpmfflags} -ffixed-line-length-none"
 %if %{with static_libs}
-install -d build-static
-cd build-static
-%cmake .. \
+%cmake -B build-static \
 	-DBUILD_DEPRECATED=ON \
 	-DBUILD_SHARED_LIBS=OFF \
 	-DCBLAS=ON \
 	-DLAPACKE_WITH_TMG=ON \
 	%{?with_xblas:-DUSE_XBLAS=ON}
-%{__make}
-cd ..
+
+%{__make} -C build-static
 %endif
 
-install -d build
-cd build
-%cmake .. \
+%cmake -B build \
 	-DBUILD_DEPRECATED=ON \
 	%{?with_tests:-DBUILD_TESTING=ON} \
 	-DCBLAS=ON \
 	-DLAPACKE_WITH_TMG=ON \
 	%{?with_xblas:-DUSE_XBLAS=ON}
-%{__make}
 
-%{?with_tests:ctest}
+%{__make} -C build
+
+%if %{with tests}
+cd build
+ctest
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -351,7 +351,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/liblapack.so
 %{_includedir}/lapack.h
 %{_pkgconfigdir}/lapack.pc
-%{_libdir}/cmake/lapack-%{version}
+%{_libdir}/cmake/lapack-3.12.0
 
 %if %{with static_libs}
 %files static
@@ -385,7 +385,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libcblas.so
 %{_includedir}/cblas*.h
 %{_pkgconfigdir}/cblas.pc
-%{_libdir}/cmake/cblas-%{version}
+%{_libdir}/cmake/cblas-3.12.0
 
 %if %{with static_libs}
 %files -n cblas-static
@@ -407,7 +407,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libtmglib.so
 %{_includedir}/lapacke*.h
 %{_pkgconfigdir}/lapacke.pc
-%{_libdir}/cmake/lapacke-%{version}
+%{_libdir}/cmake/lapacke-3.12.0
 
 %if %{with static_libs}
 %files -n lapacke-static
